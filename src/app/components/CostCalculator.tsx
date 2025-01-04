@@ -21,6 +21,7 @@ interface Filament {
     name: string
     color: string
     material: string
+    cost: number
 }
 
 interface RegionCost {
@@ -38,7 +39,6 @@ export function CostCalculator() {
     const [selectedRegionCost, setSelectedRegionCost] = useState<RegionCost | null>(null)
     const [printTime, setPrintTime] = useState<number>(0)
     const [filamentWeight, setFilamentWeight] = useState<number>(0)
-    const [filamentCost, setFilamentCost] = useState<number>(0)
     const [totalCost, setTotalCost] = useState<number | null>(null)
     const { toast } = useToast()
 
@@ -84,7 +84,7 @@ export function CostCalculator() {
 
         const energyConsumption = calculateEnergyConsumption(selectedPrinter.wattage, printTime)
         const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.kwhCost)
-        const filamentCostTotal = calculateFilamentCost(filamentCost, filamentWeight)
+        const filamentCostTotal = calculateFilamentCost(selectedFilament.cost, filamentWeight)
         const total = calculateTotalCost(energyCost, filamentCostTotal)
         setTotalCost(total)
     }
@@ -118,7 +118,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {filaments.map((filament) => (
-                                    <SelectItem key={filament.id} value={filament.id.toString()}>{filament.name} - {filament.color}</SelectItem>
+                                    <SelectItem key={filament.id} value={filament.id.toString()}>{filament.name} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -132,7 +132,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {regionCosts.map((regionCost) => (
-                                    <SelectItem key={regionCost.id} value={regionCost.id.toString()}>{regionCost.name}</SelectItem>
+                                    <SelectItem key={regionCost.id} value={regionCost.id.toString()}>{regionCost.name} - R$ {regionCost.kwhCost.toFixed(2)}/kWh</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -160,19 +160,6 @@ export function CostCalculator() {
                             step="0.1"
                             value={filamentWeight}
                             onChange={(e) => setFilamentWeight(Number(e.target.value))}
-                            required
-                        />
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label htmlFor="filamentCost">Custo do Filamento (R$/kg)</Label>
-                        <Input
-                            id="filamentCost"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={filamentCost}
-                            onChange={(e) => setFilamentCost(Number(e.target.value))}
                             required
                         />
                     </div>
