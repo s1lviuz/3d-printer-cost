@@ -11,6 +11,7 @@ export function AddFilament() {
   const [name, setName] = useState('')
   const [color, setColor] = useState('')
   const [material, setMaterial] = useState('')
+  const [cost, setCost] = useState(0)
   const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,7 +22,7 @@ export function AddFilament() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, color, material }),
+        body: JSON.stringify({ name, color, material, cost }),
       })
       if (response.ok) {
         toast({
@@ -75,6 +76,16 @@ export function AddFilament() {
               id="material"
               value={material}
               onChange={(e) => setMaterial(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="cost">Custo por Quilo</Label>
+            <Input
+              id="cost"
+              type="number"
+              value={cost}
+              onChange={(e) => setCost(parseFloat(e.target.value))}
               required
             />
           </div>

@@ -29,6 +29,7 @@ export async function POST(request: Request) {
       name: body.name,
       color: body.color,
       material: body.material,
+      cost: body.cost,
       userId: session.user.id,
     },
   })
