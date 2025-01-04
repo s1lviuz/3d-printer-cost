@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          <main>{children}</main>
+          <main className='h-[calc(100%-72px)]'>{children}</main>
         </Providers>
         <Toaster />
       </body>
