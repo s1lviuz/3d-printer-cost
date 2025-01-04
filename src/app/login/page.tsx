@@ -26,18 +26,18 @@ export default function LoginPage() {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" placeholder="Seu email" type="email" />
+                <Input disabled id="email" name="email" placeholder="Seu email" type="email" />
               </div>
             </div>
-            <Button className="w-full mt-4" type="submit">Entrar com Email</Button>
+            <Button disabled className="w-full mt-4" type="submit">Entrar com Email</Button>
           </form>
           <div className="flex flex-col gap-2 mt-4">
             <Button onClick={() => signIn('google', { callbackUrl: '/' })} variant="outline">
               Entrar com Google
             </Button>
-            <Button onClick={() => signIn('facebook', { callbackUrl: '/' })} variant="outline">
+            {/* <Button onClick={() => signIn('facebook', { callbackUrl: '/' })} variant="outline">
               Entrar com Facebook
-            </Button>
+            </Button> */}
           </div>
         </CardContent>
       </Card>
