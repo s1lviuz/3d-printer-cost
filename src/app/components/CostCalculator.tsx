@@ -9,27 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast"
 import { calculateEnergyConsumption, calculateEnergyCost, calculateFilamentCost, calculateTotalCost } from '@/utils/calculations'
 
-
-interface Printer {
-    id: number
-    name: string
-    wattage: number
-}
-
-interface Filament {
-    id: number
-    name: string
-    color: string
-    material: string
-    cost: number
-}
-
-interface RegionCost {
-    id: number
-    name: string
-    kwhCost: number
-}
-
 export function CostCalculator() {
     const [printers, setPrinters] = useState<Printer[]>([])
     const [filaments, setFilaments] = useState<Filament[]>([])

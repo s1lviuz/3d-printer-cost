@@ -19,6 +19,11 @@ export function Header() {
           ) : session ? (
             <>
               <span className="mr-4">Olá, {session.user?.name || session.user?.email}</span>
+              <Link href="/admin">
+                <Button size="sm" className="mr-4" variant="secondary">
+                  Cadastros
+                </Button>
+              </Link>
               <Button onClick={() => signOut({ callbackUrl: '/' })}>Sair</Button>
             </>
           ) : (
