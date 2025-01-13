@@ -17,15 +17,20 @@ export function Header() {
           {status === 'loading' ? (
             <span>Carregando...</span>
           ) : session ? (
-            <>
-              <span className="mr-4">Olá, {session.user?.name || session.user?.email}</span>
-              <Link href="/admin">
-                <Button size="sm" className="mr-4" variant="secondary">
-                  Cadastros
+            <div className="flex items-center space-x-4">
+              <span>Olá, {session.user?.name || session.user?.email}</span>
+              <Link href="/registration">
+                <Button size="sm" variant="outline">
+                  Materiais
                 </Button>
               </Link>
-              <Button onClick={() => signOut({ callbackUrl: '/' })}>Sair</Button>
-            </>
+              <Link href="/calculator">
+                <Button size="sm">
+                  Calculadora
+                </Button>
+              </Link>
+              <Button variant="destructive" onClick={() => signOut({ callbackUrl: '/' })}>Sair</Button>
+            </div>
           ) : (
             <Link href="/login">
               <Button>Entrar</Button>
