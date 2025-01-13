@@ -151,6 +151,7 @@ export function CostCalculator() {
                         <p className="text-lg font-semibold text-center">Custo Total Estimado: R$ {totalCost.toFixed(2)}</p>
                     </div>
                 )}
+                <Button onClick={() => toast({ title: "Teste", description: "Testando o toast" })}>Testar Toast</Button>
             </CardContent>
         </Card>
     )
