@@ -34,3 +34,19 @@ export async function POST(request: Request) {
   return NextResponse.json(printer)
 }
 
+export async function PUT(request: Request) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
+
+  const body = await request.json()
+  const printer = await prisma.printer.update({
+    where: { id: body.id },
+    data: {
+      name: body.name,
+      wattage: body.wattage,
+    },
+  })
+  return NextResponse.json(printer)
+}

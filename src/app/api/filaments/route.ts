@@ -36,3 +36,21 @@ export async function POST(request: Request) {
   return NextResponse.json(filament)
 }
 
+export async function PUT(request: Request) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
+
+  const body = await request.json()
+  const filament = await prisma.filament.update({
+    where: { id: body.id },
+    data: {
+      name: body.name,
+      color: body.color,
+      material: body.material,
+      cost: body.cost,
+    },
+  })
+  return NextResponse.json(filament)
+}
