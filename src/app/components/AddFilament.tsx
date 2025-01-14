@@ -73,7 +73,16 @@ export function AddFilament() {
                 <Input
                   id="cost"
                   type="number"
+                  min={0}
                   {...field}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value)
+                    if (isNaN(value)) {
+                      field.onChange(0)
+                    } else {
+                      field.onChange(value)
+                    }
+                  }}
                   required
                 />
               </FormControl>

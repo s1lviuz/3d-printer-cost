@@ -39,8 +39,17 @@ export function AddRegionCost() {
                 <Input
                   id="kwhCost"
                   type="number"
-                  step="0.01"
+                  step={0.01}
+                  min={0}
                   {...field}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value)
+                    if (isNaN(value)) {
+                      field.onChange(0)
+                    } else {
+                      field.onChange(value)
+                    }
+                  }}
                   required
                 />
               </FormControl>

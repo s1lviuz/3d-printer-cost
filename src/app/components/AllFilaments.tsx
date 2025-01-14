@@ -278,10 +278,10 @@ export function AllFilaments() {
             {filaments.isSuccess && (
                 <DataTable columns={columns} data={filaments.data} openModal={() => setIsOpen(true)} />
             )}
-            <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                        <DialogContent className="sm:max-w-[425px]">
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <Form {...methods}>
+                        <form onSubmit={methods.handleSubmit(onSubmit)}>
                             <DialogHeader>
                                 <DialogTitle>{watch("id") ? "Editar Filamento" : "Adicionar Filamento"}</DialogTitle>
                                 <DialogDescription>
@@ -295,10 +295,10 @@ export function AllFilaments() {
                                 <Button type="reset" variant="outline" onClick={() => setIsOpen(false)}>Cancelar</Button>
                                 <Button type="submit">Salvar</Button>
                             </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </form>
-            </Form>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

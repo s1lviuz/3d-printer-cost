@@ -61,7 +61,12 @@ export function AddPrinter() {
                 <Input
                   id="wattage"
                   type="number"
+                  min={0}
                   {...field}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value)
+                    field.onChange(value)
+                  }}
                   required
                 />
               </FormControl>

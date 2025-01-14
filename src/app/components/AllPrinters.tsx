@@ -265,10 +265,10 @@ export function AllPrinters() {
             {printers.isSuccess && (
                 <DataTable columns={columns} data={printers.data} openModal={() => setIsOpen(true)} />
             )}
-            <Form {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                        <DialogContent className="sm:max-w-[425px]">
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <Form {...methods}>
+                        <form onSubmit={methods.handleSubmit(onSubmit, (e) => console.log(e))}>
                             <DialogHeader>
                                 <DialogTitle>{watch("id") ? "Editar Impressora" : "Adicionar Impressora"}</DialogTitle>
                                 <DialogDescription>
@@ -282,10 +282,10 @@ export function AllPrinters() {
                                 <Button type="reset" variant="outline" onClick={() => setIsOpen(false)}>Cancelar</Button>
                                 <Button type="submit">Salvar</Button>
                             </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </form>
-            </Form>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
