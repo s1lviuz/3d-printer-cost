@@ -61,7 +61,7 @@ export function AddPrinter() {
                 <Input
                   id="wattage"
                   type="number"
-                  min={0}
+                  min={1}
                   {...field}
                   onChange={(e) => {
                     const value = parseInt(e.target.value)

@@ -73,7 +73,7 @@ export function AddFilament() {
                 <Input
                   id="cost"
                   type="number"
-                  min={0}
+                  min={1}
                   {...field}
                   onChange={(e) => {
                     const value = parseFloat(e.target.value)

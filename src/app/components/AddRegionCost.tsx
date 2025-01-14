@@ -40,7 +40,7 @@ export function AddRegionCost() {
                   id="kwhCost"
                   type="number"
                   step={0.01}
-                  min={0}
+                  min={0.01}
                   {...field}
                   onChange={(e) => {
                     const value = parseFloat(e.target.value)
