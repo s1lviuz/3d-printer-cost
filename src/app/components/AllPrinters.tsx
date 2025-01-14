@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { useQuery } from "react-query"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
+import { MoreHorizontal, ArrowUpDown, Plus, Edit, Trash } from "lucide-react"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -97,7 +97,10 @@ function DataTable<TData, TValue>({
                     }}
                     className="max-w-sm"
                 />
-                <Button onClick={openModal}>Adicionar Impressora</Button>
+                <Button onClick={openModal}>
+                    <Plus />
+                    Adicionar Impressora
+                </Button>
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -225,6 +228,7 @@ export function AllPrinters() {
                                     setIsOpen(true)
                                 }}
                             >
+                                <Edit />
                                 Editar
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
@@ -247,6 +251,7 @@ export function AllPrinters() {
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >
+                                <Trash />
                                 Excluir
                             </DropdownMenuItem>
                         </DropdownMenuContent>
