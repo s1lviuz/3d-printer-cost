@@ -1,30 +1,31 @@
 'use client'
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import { toast } from 'sonner'
+import { useFormContext } from 'react-hook-form'
+
+interface RegionCost {
+  name: string
+  kwhCost: number
+}
 
 export function AddRegionCost() {
-  const [name, setName] = useState('')
-  const [kwhCost, setKwhCost] = useState('')
+  const methods = useFormContext<RegionCost>()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: RegionCost) => {
     try {
       const response = await fetch('/api/region-costs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, kwhCost: parseFloat(kwhCost) }),
+        body: JSON.stringify(data),
       })
       if (response.ok) {
         toast("O novo custo regional foi adicionado com sucesso.")
-        setName('')
-        setKwhCost('')
+        methods.reset()
       } else {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Falha ao adicionar custo regional')
@@ -36,35 +37,44 @@ export function AddRegionCost() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Adicionar Novo Custo Regional</CardTitle>
-      </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Nome da Região</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="kwhCost">Custo do kWh (R$)</Label>
-            <Input
-              id="kwhCost"
-              type="number"
-              step="0.01"
-              value={kwhCost}
-              onChange={(e) => setKwhCost(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit">Adicionar Custo Regional</Button>
-        </form>
+        <FormField
+          control={methods.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome da Região</FormLabel>
+              <FormControl>
+                <Input
+                  id="name"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={methods.control}
+          name="kwhCost"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Custo do kWh (R$)</FormLabel>
+              <FormControl>
+                <Input
+                  id="kwhCost"
+                  type="number"
+                  step="0.01"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   )
 }
-
