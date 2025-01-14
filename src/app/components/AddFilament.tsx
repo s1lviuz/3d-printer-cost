@@ -11,7 +11,7 @@ export function AddFilament() {
   const [name, setName] = useState('')
   const [color, setColor] = useState('')
   const [material, setMaterial] = useState('')
-  const [cost, setCost] = useState(0)
+  const [cost, setCost] = useState<number>()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
