@@ -56,7 +56,7 @@ export function CostCalculator() {
         }
 
         const energyConsumption = calculateEnergyConsumption(selectedPrinter.wattage, printTime)
-        const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.cost)
+        const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.kwhCost)
         const filamentCostTotal = calculateFilamentCost(selectedFilament.cost, filamentWeight)
         const total = calculateTotalCost(energyCost, filamentCostTotal)
         setTotalCost(total)
@@ -105,7 +105,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {regionCosts.map((regionCost) => (
-                                    <SelectItem key={regionCost.id} value={regionCost.id?.toString() ?? ''}>{regionCost.name} - R$ {regionCost.cost.toFixed(2)}/kWh</SelectItem>
+                                    <SelectItem key={regionCost.id} value={regionCost.id?.toString() ?? ''}>{regionCost.name} - R$ {regionCost.kwhCost.toFixed(2)}/kWh</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>

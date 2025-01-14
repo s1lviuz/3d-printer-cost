@@ -31,7 +31,7 @@ export function AddRegionCost() {
         />
         <FormField
           control={methods.control}
-          name="cost"
+          name="kwhCost"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Custo do kWh (R$)</FormLabel>
@@ -39,7 +39,6 @@ export function AddRegionCost() {
                 <Input
                   id="kwhCost"
                   type="number"
-                  step="0.01"
                   {...field}
                   required
                 />

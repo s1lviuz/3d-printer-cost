@@ -4,7 +4,7 @@ import { AllFilaments } from "../components/AllFilaments"
 import { AllPrinters } from "../components/AllPrinters"
 import { AllRegionsCost } from "../components/AllRegionsCost"
 
-export default function AdminPage() {
+export default function RegistrationPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Painel de Cadastros</h1>
