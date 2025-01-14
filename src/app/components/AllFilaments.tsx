@@ -192,13 +192,13 @@ export function AllFilaments() {
             accessorKey: "cost",
             header: ({ column }) => {
                 return (
-                    <Button
-                        variant="ghost"
+                    <div
+                        className="flex items-center cursor-pointer"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
                         Custo/Kg
                         <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
+                    </div>
                 )
             },
             cell: ({ row }) => {
@@ -239,6 +239,7 @@ export function AllFilaments() {
                                 onClick={() => {
                                     console.log("Delete", row.original)
                                 }}
+                                className="focus:bg-destructive focus:text-destructive-foreground"
                             >
                                 Excluir
                             </DropdownMenuItem>

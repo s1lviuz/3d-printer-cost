@@ -8,7 +8,7 @@ export function Header() {
   const { data: session, status } = useSession()
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-muted shadow-sm">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
           3D Print Cost

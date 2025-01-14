@@ -184,13 +184,13 @@ export function AllPrinters() {
             accessorKey: "wattage",
             header: ({ column }) => {
                 return (
-                    <Button
-                        variant="ghost"
+                    <div
+                        className="flex items-center cursor-pointer"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
                         Potência (Watts)
                         <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
+                    </div>
                 )
             },
             cell: ({ row }) => {
@@ -226,6 +226,7 @@ export function AllPrinters() {
                                 onClick={() => {
                                     console.log("Delete", row.original)
                                 }}
+                                className="focus:bg-destructive focus:text-destructive-foreground"
                             >
                                 Excluir
                             </DropdownMenuItem>
