@@ -32,9 +32,9 @@ const fetchRegionCosts = async () => {
 }
 
 export function CostCalculator() {
-    const { data: printers, isLoading: printersLoading, isError: printersError } = useQuery('printers', fetchPrinters)
-    const { data: filaments, isLoading: filamentsLoading, isError: filamentsError } = useQuery('filaments', fetchFilaments)
-    const { data: regionCosts, isLoading: regionCostsLoading, isError: regionCostsError } = useQuery('region-costs', fetchRegionCosts)
+    const { data: printers, isFetching: printersLoading, isError: printersError } = useQuery('printers', fetchPrinters)
+    const { data: filaments, isFetching: filamentsLoading, isError: filamentsError } = useQuery('filaments', fetchFilaments)
+    const { data: regionCosts, isFetching: regionCostsLoading, isError: regionCostsError } = useQuery('region-costs', fetchRegionCosts)
 
     const [selectedPrinter, setSelectedPrinter] = useState<Printer | null>(null)
     const [selectedFilament, setSelectedFilament] = useState<Filament | null>(null)
@@ -55,6 +55,42 @@ export function CostCalculator() {
         const total = calculateTotalCost(energyCost, filamentCostTotal)
         setTotalCost(total)
     }
+
+    useEffect(() => {
+        if (printersError) {
+            return
+        }
+
+        const emptyRegionCosts = regionCosts && regionCosts.length === 0
+
+        if (emptyRegionCosts) {
+            toast("Nenhuma região encontrada. Por favor, adicione uma região.")
+        }
+    }, [regionCosts])
+
+    useEffect(() => {
+        if (printersError) {
+            return
+        }
+
+        const emptyFilaments = filaments && filaments.length === 0
+
+        if (emptyFilaments) {
+            toast("Nenhum filamento encontrado. Por favor, adicione um filamento.")
+        }
+    }, [filaments])
+
+    useEffect(() => {
+        if (printersError) {
+            return
+        }
+
+        const emptyPrinters = printers && printers.length === 0
+
+        if (emptyPrinters) {
+            toast("Nenhuma impressora encontrada. Por favor, adicione uma impressora.")
+        }
+    }, [printers])
 
     return (
         <Card className="w-full max-w-2xl mx-auto">
