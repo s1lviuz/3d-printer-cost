@@ -47,6 +47,7 @@ import { filamentSchema } from "@/schemas/filament"
 import { Form } from "@/components/ui/form"
 import { Filament } from "@/schemas/filament"
 import { toast } from "sonner"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,6 +68,8 @@ function DataTable<TData, TValue>({
     const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([])
     const [search, setSearch] = useState<string>("")
 
+    const isMobile = useIsMobile()
+
     const table = useReactTable({
         data,
         columns,
@@ -86,7 +89,7 @@ function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center justify-between py-4">
+            <div className="flex items-center justify-between py-4 gap-4">
                 <Input
                     placeholder="Pesquisar"
                     value={search}
@@ -99,7 +102,7 @@ function DataTable<TData, TValue>({
                 />
                 <Button onClick={openModal}>
                     <Plus />
-                    Adicionar Filamento
+                    {!isMobile && "Adicionar Filamento"}
                 </Button>
             </div>
             <div className="rounded-md border">
