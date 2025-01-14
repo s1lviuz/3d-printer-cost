@@ -39,6 +39,7 @@ export function AddRegionCost() {
                 <Input
                   id="kwhCost"
                   type="number"
+                  step="0.01"
                   {...field}
                   required
                 />

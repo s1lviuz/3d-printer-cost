@@ -60,7 +60,8 @@ const fetchFilaments = async () => {
 function DataTable<TData, TValue>({
     columns,
     data,
-}: DataTableProps<TData, TValue>) {
+    openModal
+}: DataTableProps<TData, TValue> & { openModal: () => void }) {
     const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([])
     const [search, setSearch] = useState<string>("")
@@ -84,7 +85,7 @@ function DataTable<TData, TValue>({
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center justify-between py-4">
                 <Input
                     placeholder="Pesquisar"
                     value={search}
@@ -95,6 +96,7 @@ function DataTable<TData, TValue>({
                     }}
                     className="max-w-sm"
                 />
+                <Button onClick={openModal}>Adicionar Filamento</Button>
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -255,7 +257,7 @@ export function AllFilaments() {
             {filaments.isLoading && <p>Carregando...</p>}
             {filaments.isError && <p>Ocorreu um erro ao carregar os filamentos.</p>}
             {filaments.isSuccess && (
-                <DataTable columns={columns} data={filaments.data} />
+                <DataTable columns={columns} data={filaments.data} openModal={() => setIsOpen(true)} />
             )}
             <Form {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
