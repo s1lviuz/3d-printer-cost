@@ -46,6 +46,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { regionCostsSchema } from "@/schemas/region-costs"
 import { Form } from "@/components/ui/form"
 import { RegionCosts } from "@/schemas/region-costs"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -240,8 +241,25 @@ export function AllRegionsCost() {
         }
     ] satisfies ColumnDef<RegionCosts>[], [])
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = async (data: RegionCosts) => {
+        const response = await fetch('/api/region-costs', {
+            method: data.id ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (response.ok) {
+            setIsOpen(false)
+            regionCosts.refetch()
+            methods.reset()
+
+            toast(data.id ? "Região atualizada com sucesso" : "Região adicionada com sucesso")
+        } else {
+            const errorData = await response.json()
+            toast('Falha ao adicionar região')
+        }
     };
 
     return (

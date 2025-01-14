@@ -46,6 +46,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { filamentSchema } from "@/schemas/filament"
 import { Form } from "@/components/ui/form"
 import { Filament } from "@/schemas/filament"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -248,8 +249,25 @@ export function AllFilaments() {
         }
     ] satisfies ColumnDef<Filament>[], [])
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = async (data: Filament) => {
+        const response = await fetch('/api/filaments', {
+            method: watch("id") ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (response.ok) {
+            setIsOpen(false)
+            methods.reset()
+            filaments.refetch()
+
+            toast(data.id ? "Filamento atualizado com sucesso." : "Filamento adicionado com sucesso.")
+        } else {
+            const errorData = await response.json()
+            toast('Falha ao adicionar filamento')
+        }
     };
 
     return (

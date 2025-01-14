@@ -46,6 +46,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { printerSchema } from "@/schemas/printer"
 import { Form } from "@/components/ui/form"
 import { Printer } from "@/schemas/printer"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -235,8 +236,25 @@ export function AllPrinters() {
         }
     ] satisfies ColumnDef<Printer>[], [])
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit = async (data: Printer) => {
+        const response = await fetch('/api/printers', {
+            method: data.id ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (response.ok) {
+            setIsOpen(false)
+            printers.refetch()
+            methods.reset()
+
+            toast(data.id ? "Impressora atualizada com sucesso." : "Impressora adicionada com sucesso.")
+        } else {
+            const errorData = await response.json()
+            toast('Falha ao adicionar impressora')
+        }
     };
 
     return (
