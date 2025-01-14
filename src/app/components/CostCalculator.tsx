@@ -11,43 +11,37 @@ import { toast } from 'sonner'
 import { Printer } from '@/schemas/printer'
 import { Filament } from '@/schemas/filament'
 import { RegionCosts } from '@/schemas/region-costs'
+import { useQuery } from 'react-query'
+
+const fetchPrinters = async () => {
+    const response = await fetch('/api/printers')
+    if (!response.ok) throw new Error('Falha ao buscar impressoras')
+    return response.json() as Promise<Printer[]>
+}
+
+const fetchFilaments = async () => {
+    const response = await fetch('/api/filaments')
+    if (!response.ok) throw new Error('Falha ao buscar filamentos')
+    return response.json() as Promise<Filament[]>
+}
+
+const fetchRegionCosts = async () => {
+    const response = await fetch('/api/region-costs')
+    if (!response.ok) throw new Error('Failed to fetch region costs')
+    return response.json() as Promise<RegionCosts[]>
+}
 
 export function CostCalculator() {
-    const [printers, setPrinters] = useState<Printer[]>([])
-    const [filaments, setFilaments] = useState<Filament[]>([])
-    const [regionCosts, setRegionCosts] = useState<RegionCosts[]>([])
+    const { data: printers, isLoading: printersLoading, isError: printersError } = useQuery('printers', fetchPrinters)
+    const { data: filaments, isLoading: filamentsLoading, isError: filamentsError } = useQuery('filaments', fetchFilaments)
+    const { data: regionCosts, isLoading: regionCostsLoading, isError: regionCostsError } = useQuery('region-costs', fetchRegionCosts)
+
     const [selectedPrinter, setSelectedPrinter] = useState<Printer | null>(null)
     const [selectedFilament, setSelectedFilament] = useState<Filament | null>(null)
     const [selectedRegionCost, setSelectedRegionCost] = useState<RegionCosts | null>(null)
     const [printTime, setPrintTime] = useState<number>(0)
     const [filamentWeight, setFilamentWeight] = useState<number>(0)
     const [totalCost, setTotalCost] = useState<number | null>(null)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const printersResponse = await fetch('/api/printers')
-                const filamentsResponse = await fetch('/api/filaments')
-                const regionCostsResponse = await fetch('/api/region-costs')
-
-                if (!printersResponse.ok || !filamentsResponse.ok || !regionCostsResponse.ok) {
-                    throw new Error('Failed to fetch data')
-                }
-
-                const printersData = await printersResponse.json()
-                const filamentsData = await filamentsResponse.json()
-                const regionCostsData = await regionCostsResponse.json()
-
-                setPrinters(printersData)
-                setFilaments(filamentsData)
-                setRegionCosts(regionCostsData)
-            } catch (error) {
-                toast("Falha ao carregar dados. Por favor, tente novamente.")
-            }
-        }
-
-        fetchData()
-    }, [toast])
 
     const handleCalculate = () => {
         if (!selectedPrinter || !selectedRegionCost || !selectedFilament) {
@@ -71,12 +65,12 @@ export function CostCalculator() {
                 <form onSubmit={(e) => { e.preventDefault(); handleCalculate(); }} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="printer">Impressora</Label>
-                        <Select onValueChange={(value) => setSelectedPrinter(printers.find(p => p.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedPrinter(printers?.find(p => p.id === parseInt(value)) || null)}>
                             <SelectTrigger id="printer">
                                 <SelectValue placeholder="Selecione uma impressora" />
                             </SelectTrigger>
                             <SelectContent>
-                                {printers.map((printer) => (
+                                {printers?.map((printer) => (
                                     <SelectItem key={printer.id} value={printer.id?.toString() ?? ''}>{printer.name}</SelectItem>
                                 ))}
                             </SelectContent>
@@ -85,12 +79,12 @@ export function CostCalculator() {
 
                     <div className="space-y-2">
                         <Label htmlFor="filament">Filamento</Label>
-                        <Select onValueChange={(value) => setSelectedFilament(filaments.find(f => f.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedFilament(filaments?.find(f => f.id === parseInt(value)) || null)}>
                             <SelectTrigger id="filament">
                                 <SelectValue placeholder="Selecione um filamento" />
                             </SelectTrigger>
                             <SelectContent>
-                                {filaments.map((filament) => (
+                                {filaments?.map((filament) => (
                                     <SelectItem key={filament.id} value={filament.id?.toString() ?? ''}>{filament.name} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
                                 ))}
                             </SelectContent>
@@ -99,12 +93,12 @@ export function CostCalculator() {
 
                     <div className="space-y-2">
                         <Label htmlFor="regionCost">Região</Label>
-                        <Select onValueChange={(value) => setSelectedRegionCost(regionCosts.find(r => r.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedRegionCost(regionCosts?.find(r => r.id === parseInt(value)) || null)}>
                             <SelectTrigger id="regionCost">
                                 <SelectValue placeholder="Selecione uma região" />
                             </SelectTrigger>
                             <SelectContent>
-                                {regionCosts.map((regionCost) => (
+                                {regionCosts?.map((regionCost) => (
                                     <SelectItem key={regionCost.id} value={regionCost.id?.toString() ?? ''}>{regionCost.name} - R$ {regionCost.kwhCost.toFixed(2)}/kWh</SelectItem>
                                 ))}
                             </SelectContent>
