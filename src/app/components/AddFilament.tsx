@@ -5,14 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from 'sonner'
 
 export function AddFilament() {
   const [name, setName] = useState('')
   const [color, setColor] = useState('')
   const [material, setMaterial] = useState('')
   const [cost, setCost] = useState(0)
-  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,10 +24,7 @@ export function AddFilament() {
         body: JSON.stringify({ name, color, material, cost }),
       })
       if (response.ok) {
-        toast({
-          title: "Filamento adicionado",
-          description: "O novo filamento foi adicionado com sucesso.",
-        })
+        toast("O novo filamento foi adicionado com sucesso.")
         setName('')
         setColor('')
         setMaterial('')
@@ -38,11 +34,7 @@ export function AddFilament() {
         throw new Error(errorData.error || 'Falha ao adicionar filamento')
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: error instanceof Error ? error.message : "Houve um problema ao adicionar o filamento.",
-        variant: "destructive",
-      })
+      toast("Houve um problema ao adicionar o filamento.")
     }
   }
 

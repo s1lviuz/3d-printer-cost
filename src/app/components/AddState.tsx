@@ -5,12 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from 'sonner'
 
 export function AddState() {
   const [name, setName] = useState('')
   const [kwhCost, setKwhCost] = useState('')
-  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,21 +22,14 @@ export function AddState() {
         body: JSON.stringify({ name, kwhCost: parseFloat(kwhCost) }),
       })
       if (response.ok) {
-        toast({
-          title: "Estado adicionado",
-          description: "O novo estado foi adicionado com sucesso.",
-        })
+        toast("O novo estado foi adicionado com sucesso.")
         setName('')
         setKwhCost('')
       } else {
         throw new Error('Falha ao adicionar estado')
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Houve um problema ao adicionar o estado.",
-        variant: "destructive",
-      })
+      toast("Houve um problema ao adicionar o estado.")
     }
   }
 

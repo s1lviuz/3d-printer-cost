@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import { Header } from './components/Header'
 import Providers from './providers'
 import './globals.css'
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,8 +22,8 @@ export default function RootLayout({
         <Providers>
           <Header />
           <main className='h-[calc(100%-72px)]'>{children}</main>
+          <Toaster />
         </Providers>
-        <Toaster />
       </body>
     </html>
   )

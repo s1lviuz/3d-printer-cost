@@ -5,12 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from 'sonner'
 
 export function AddPrinter() {
   const [name, setName] = useState('')
   const [wattage, setWattage] = useState('')
-  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,10 +22,7 @@ export function AddPrinter() {
         body: JSON.stringify({ name, wattage: parseInt(wattage) }),
       })
       if (response.ok) {
-        toast({
-          title: "Impressora adicionada",
-          description: "A nova impressora foi adicionada com sucesso.",
-        })
+        toast("A nova impressora foi adicionada com sucesso.")
         setName('')
         setWattage('')
       } else {
@@ -34,11 +30,7 @@ export function AddPrinter() {
         throw new Error(errorData.error || 'Falha ao adicionar impressora')
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: error instanceof Error ? error.message : "Houve um problema ao adicionar a impressora.",
-        variant: "destructive",
-      })
+      toast("Houve um problema ao adicionar a impressora.")
     }
   }
 

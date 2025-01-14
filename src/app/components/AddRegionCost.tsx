@@ -5,12 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from 'sonner'
 
 export function AddRegionCost() {
   const [name, setName] = useState('')
   const [kwhCost, setKwhCost] = useState('')
-  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,10 +22,7 @@ export function AddRegionCost() {
         body: JSON.stringify({ name, kwhCost: parseFloat(kwhCost) }),
       })
       if (response.ok) {
-        toast({
-          title: "Custo regional adicionado",
-          description: "O novo custo regional foi adicionado com sucesso.",
-        })
+        toast("O novo custo regional foi adicionado com sucesso.")
         setName('')
         setKwhCost('')
       } else {
@@ -34,11 +30,7 @@ export function AddRegionCost() {
         throw new Error(errorData.error || 'Falha ao adicionar custo regional')
       }
     } catch (error) {
-      toast({
-        title: "Erro",
-        description: error instanceof Error ? error.message : "Houve um problema ao adicionar o custo regional.",
-        variant: "destructive",
-      })
+      toast("Houve um problema ao adicionar o custo regional.")
     }
   }
 

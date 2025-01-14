@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
 import { calculateEnergyConsumption, calculateEnergyCost, calculateFilamentCost, calculateTotalCost } from '@/utils/calculations'
+import { toast } from 'sonner'
 
 export function CostCalculator() {
     const [printers, setPrinters] = useState<Printer[]>([])
@@ -19,7 +19,6 @@ export function CostCalculator() {
     const [printTime, setPrintTime] = useState<number>(0)
     const [filamentWeight, setFilamentWeight] = useState<number>(0)
     const [totalCost, setTotalCost] = useState<number | null>(null)
-    const { toast } = useToast()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,11 +39,7 @@ export function CostCalculator() {
                 setFilaments(filamentsData)
                 setRegionCosts(regionCostsData)
             } catch (error) {
-                toast({
-                    title: "Erro",
-                    description: "Falha ao carregar dados. Por favor, tente novamente.",
-                    variant: "destructive",
-                })
+                toast("Falha ao carregar dados. Por favor, tente novamente.")
             }
         }
 
@@ -53,11 +48,7 @@ export function CostCalculator() {
 
     const handleCalculate = () => {
         if (!selectedPrinter || !selectedRegionCost || !selectedFilament) {
-            toast({
-                title: "Erro",
-                description: "Por favor, selecione todos os campos necessários.",
-                variant: "destructive",
-            })
+            toast("Por favor, selecione todos os campos necessários.")
             return
         }
 
@@ -151,7 +142,6 @@ export function CostCalculator() {
                         <p className="text-lg font-semibold text-center">Custo Total Estimado: R$ {totalCost.toFixed(2)}</p>
                     </div>
                 )}
-                <Button onClick={() => toast({ title: "Teste", description: "Testando o toast" })}>Testar Toast</Button>
             </CardContent>
         </Card>
     )
