@@ -258,7 +258,7 @@ export function AllRegionsCost() {
             toast(data.id ? "Região atualizada com sucesso" : "Região adicionada com sucesso")
         } else {
             const errorData = await response.json()
-            toast('Falha ao adicionar região')
+            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} região`)
         }
     };
 

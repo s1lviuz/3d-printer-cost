@@ -253,7 +253,7 @@ export function AllPrinters() {
             toast(data.id ? "Impressora atualizada com sucesso." : "Impressora adicionada com sucesso.")
         } else {
             const errorData = await response.json()
-            toast('Falha ao adicionar impressora')
+            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} impressora`)
         }
     };
 

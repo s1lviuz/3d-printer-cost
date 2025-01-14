@@ -266,7 +266,7 @@ export function AllFilaments() {
             toast(data.id ? "Filamento atualizado com sucesso." : "Filamento adicionado com sucesso.")
         } else {
             const errorData = await response.json()
-            toast('Falha ao adicionar filamento')
+            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} filamento.`)
         }
     };
 
