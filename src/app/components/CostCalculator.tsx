@@ -39,8 +39,8 @@ export function CostCalculator() {
     const [selectedPrinter, setSelectedPrinter] = useState<Printer | null>(null)
     const [selectedFilament, setSelectedFilament] = useState<Filament | null>(null)
     const [selectedRegionCost, setSelectedRegionCost] = useState<RegionCosts | null>(null)
-    const [printTime, setPrintTime] = useState<number>(0)
-    const [filamentWeight, setFilamentWeight] = useState<number>(0)
+    const [printTime, setPrintTime] = useState<number>()
+    const [filamentWeight, setFilamentWeight] = useState<number>()
     const [totalCost, setTotalCost] = useState<number | null>(null)
 
     const handleCalculate = () => {
@@ -49,9 +49,9 @@ export function CostCalculator() {
             return
         }
 
-        const energyConsumption = calculateEnergyConsumption(selectedPrinter.wattage, printTime)
+        const energyConsumption = calculateEnergyConsumption(selectedPrinter.wattage, printTime ?? 0)
         const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.kwhCost)
-        const filamentCostTotal = calculateFilamentCost(selectedFilament.cost, filamentWeight)
+        const filamentCostTotal = calculateFilamentCost(selectedFilament.cost, filamentWeight ?? 0)
         const total = calculateTotalCost(energyCost, filamentCostTotal)
         setTotalCost(total)
     }
@@ -65,7 +65,7 @@ export function CostCalculator() {
                 <form onSubmit={(e) => { e.preventDefault(); handleCalculate(); }} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="printer">Impressora</Label>
-                        <Select onValueChange={(value) => setSelectedPrinter(printers?.find(p => p.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedPrinter(printers?.find(p => p.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="printer">
                                 <SelectValue placeholder="Selecione uma impressora" />
                             </SelectTrigger>
@@ -79,7 +79,7 @@ export function CostCalculator() {
 
                     <div className="space-y-2">
                         <Label htmlFor="filament">Filamento</Label>
-                        <Select onValueChange={(value) => setSelectedFilament(filaments?.find(f => f.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedFilament(filaments?.find(f => f.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="filament">
                                 <SelectValue placeholder="Selecione um filamento" />
                             </SelectTrigger>
@@ -93,7 +93,7 @@ export function CostCalculator() {
 
                     <div className="space-y-2">
                         <Label htmlFor="regionCost">Região</Label>
-                        <Select onValueChange={(value) => setSelectedRegionCost(regionCosts?.find(r => r.id === parseInt(value)) || null)}>
+                        <Select onValueChange={(value) => setSelectedRegionCost(regionCosts?.find(r => r.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="regionCost">
                                 <SelectValue placeholder="Selecione uma região" />
                             </SelectTrigger>
