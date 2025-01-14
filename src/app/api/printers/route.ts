@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../auth/[...nextauth]/route'
+import { printerSchema } from '@/app/schemas/printer'
 
 const prisma = new PrismaClient()
 
@@ -24,6 +25,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!printerSchema.safeParse(body)) {
+    const errors = printerSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const printer = await prisma.printer.create({
     data: {
       name: body.name,
@@ -41,6 +49,13 @@ export async function PUT(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!printerSchema.safeParse(body)) {
+    const errors = printerSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const printer = await prisma.printer.update({
     where: { id: body.id },
     data: {

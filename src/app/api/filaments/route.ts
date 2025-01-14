@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../auth/[...nextauth]/route'
+import { filamentSchema } from '@/app/schemas/filament'
 
 const prisma = new PrismaClient()
 
@@ -24,6 +25,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!filamentSchema.safeParse(body)) {
+    const errors = filamentSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const filament = await prisma.filament.create({
     data: {
       name: body.name,
@@ -43,6 +51,13 @@ export async function PUT(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!filamentSchema.safeParse(body)) {
+    const errors = filamentSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const filament = await prisma.filament.update({
     where: { id: body.id },
     data: {

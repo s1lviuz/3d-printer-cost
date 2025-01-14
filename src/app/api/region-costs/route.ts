@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../auth/[...nextauth]/route'
+import { regionCostsSchema } from '@/app/schemas/region-costs'
 
 const prisma = new PrismaClient()
 
@@ -24,6 +25,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!regionCostsSchema.safeParse(body)) {
+    const errors = regionCostsSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const regionCost = await prisma.regionCost.create({
     data: {
       name: body.name,
@@ -41,6 +49,13 @@ export async function PUT(request: Request) {
   }
 
   const body = await request.json()
+
+  if (!regionCostsSchema.safeParse(body)) {
+    const errors = regionCostsSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
   const regionCost = await prisma.regionCost.update({
     where: { id: body.id },
     data: {
