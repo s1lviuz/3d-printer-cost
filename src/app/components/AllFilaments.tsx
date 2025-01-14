@@ -244,8 +244,21 @@ export function AllFilaments() {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                                onClick={() => {
-                                    console.log("Delete", row.original)
+                                onClick={async () => {
+                                    const response = await fetch("/api/filaments", {
+                                        method: "DELETE",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify(row.original),
+                                    })
+
+                                    if (response.ok) {
+                                        filaments.refetch()
+                                        toast("Filamento excluído com sucesso.")
+                                    } else {
+                                        toast("Falha ao excluir filamento.")
+                                    }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >

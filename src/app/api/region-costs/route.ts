@@ -65,3 +65,17 @@ export async function PUT(request: Request) {
   })
   return NextResponse.json(regionCost)
 }
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
+
+  const body = await request.json()
+
+  const regionCost = await prisma.regionCost.delete({
+    where: { id: body.id },
+  })
+  return NextResponse.json(regionCost)
+}

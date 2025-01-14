@@ -233,8 +233,21 @@ export function AllRegionsCost() {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                                onClick={() => {
-                                    console.log("Delete", row.original)
+                                onClick={async () => {
+                                    const response = await fetch("/api/region-costs", {
+                                        method: "DELETE",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify(row.original),
+                                    })
+
+                                    if (response.ok) {
+                                        regionCosts.refetch()
+                                        toast("Região excluída com sucesso")
+                                    } else {
+                                        toast("Falha ao excluir região")
+                                    }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >

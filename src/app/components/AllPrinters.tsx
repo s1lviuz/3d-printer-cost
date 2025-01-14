@@ -229,8 +229,21 @@ export function AllPrinters() {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                                onClick={() => {
-                                    console.log("Delete", row.original)
+                                onClick={async () => {
+                                    const response = await fetch("/api/printers", {
+                                        method: "DELETE",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify(row.original),
+                                    })
+
+                                    if (response.ok) {
+                                        printers.refetch()
+                                        toast("Impressora excluída com sucesso.")
+                                    } else {
+                                        toast("Falha ao excluir impressora.")
+                                    }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >

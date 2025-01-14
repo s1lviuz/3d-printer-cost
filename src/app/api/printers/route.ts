@@ -65,3 +65,18 @@ export async function PUT(request: Request) {
   })
   return NextResponse.json(printer)
 }
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
+
+  const body = await request.json()
+  const printerId = body.id
+
+  await prisma.printer.delete({
+    where: { id: printerId }
+  })
+  return NextResponse.json({ success: true })
+}

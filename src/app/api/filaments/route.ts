@@ -69,3 +69,23 @@ export async function PUT(request: Request) {
   })
   return NextResponse.json(filament)
 }
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
+  }
+
+  const body = await request.json()
+
+  if (!filamentSchema.safeParse(body)) {
+    const errors = filamentSchema.safeParse(body).error?.errors.map((error) => error)
+
+    return NextResponse.json({ error: errors }, { status: 400 })
+  }
+
+  const filament = await prisma.filament.delete({
+    where: { id: body.id },
+  })
+  return NextResponse.json(filament)
+}
