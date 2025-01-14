@@ -1,89 +1,85 @@
 'use client'
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { toast } from 'sonner'
+import { useFormContext } from 'react-hook-form'
 
 export function AddFilament() {
-  const [name, setName] = useState('')
-  const [color, setColor] = useState('')
-  const [material, setMaterial] = useState('')
-  const [cost, setCost] = useState<number>()
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const response = await fetch('/api/filaments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, color, material, cost }),
-      })
-      if (response.ok) {
-        toast("O novo filamento foi adicionado com sucesso.")
-        setName('')
-        setColor('')
-        setMaterial('')
-        setCost(0)
-      } else {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Falha ao adicionar filamento')
-      }
-    } catch (error) {
-      toast("Houve um problema ao adicionar o filamento.")
-    }
-  }
+  const methods = useFormContext<Filament>()
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Adicionar Novo Filamento</CardTitle>
-      </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Nome do Filamento</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="color">Cor</Label>
-            <Input
-              id="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="material">Material</Label>
-            <Input
-              id="material"
-              value={material}
-              onChange={(e) => setMaterial(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="cost">Custo por Quilo</Label>
-            <Input
-              id="cost"
-              type="number"
-              value={cost}
-              onChange={(e) => setCost(parseFloat(e.target.value))}
-              required
-            />
-          </div>
-          <Button type="submit">Adicionar Filamento</Button>
-        </form>
+        <FormField
+          control={methods.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome do Filamento</FormLabel>
+              <FormControl>
+                <Input
+                  id="name"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={methods.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cor</FormLabel>
+              <FormControl>
+                <Input
+                  id="color"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={methods.control}
+          name="material"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Material</FormLabel>
+              <FormControl>
+                <Input
+                  id="material"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={methods.control}
+          name="cost"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Custo (R$/Kg)</FormLabel>
+              <FormControl>
+                <Input
+                  id="cost"
+                  type="number"
+                  {...field}
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </CardContent>
     </Card>
   )
