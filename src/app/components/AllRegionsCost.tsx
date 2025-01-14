@@ -169,6 +169,11 @@ export function AllRegionsCost() {
     const regionCosts = useQuery('region-costs', fetchRegionCosts)
     const [isOpen, setIsOpen] = useState(false)
 
+    const defaultValues = {
+        name: "",
+        kwhCost: 0,
+    }
+
     const methods = useForm<RegionCosts>({
         mode: 'onSubmit',
         resolver: zodResolver(regionCostsSchema),
@@ -270,7 +275,12 @@ export function AllRegionsCost() {
             {regionCosts.isSuccess && (
                 <DataTable columns={columns} data={regionCosts.data} openModal={() => setIsOpen(true)} />
             )}
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog open={isOpen} onOpenChange={open => {
+                if (!open) {
+                    methods.reset(defaultValues)
+                }
+                setIsOpen(open)
+            }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...methods}>
                         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -284,7 +294,10 @@ export function AllRegionsCost() {
                             </DialogHeader>
                             <AddRegionCost />
                             <DialogFooter>
-                                <Button type="reset" variant="outline" onClick={() => setIsOpen(false)}>Cancelar</Button>
+                                <Button type="button" variant="outline" onClick={() => {
+                                    setIsOpen(false)
+                                    methods.reset(defaultValues)
+                                }}>Cancelar</Button>
                                 <Button type="submit">Salvar</Button>
                             </DialogFooter>
                         </form>

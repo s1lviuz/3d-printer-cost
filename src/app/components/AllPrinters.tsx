@@ -169,9 +169,15 @@ export function AllPrinters() {
     const printers = useQuery('printers', fetchPrinters)
     const [isOpen, setIsOpen] = useState(false)
 
+    const defaultValues = {
+        name: "",
+        wattage: 0,
+    }
+
     const methods = useForm<Printer>({
         mode: 'onSubmit',
         resolver: zodResolver(printerSchema),
+        defaultValues,
     });
     const { watch } = methods;
 
@@ -265,7 +271,12 @@ export function AllPrinters() {
             {printers.isSuccess && (
                 <DataTable columns={columns} data={printers.data} openModal={() => setIsOpen(true)} />
             )}
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog open={isOpen} onOpenChange={open => {
+                if (!open) {
+                    methods.reset(defaultValues)
+                }
+                setIsOpen(open)
+            }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...methods}>
                         <form onSubmit={methods.handleSubmit(onSubmit, (e) => console.log(e))}>
@@ -279,7 +290,10 @@ export function AllPrinters() {
                             </DialogHeader>
                             <AddPrinter />
                             <DialogFooter>
-                                <Button type="reset" variant="outline" onClick={() => setIsOpen(false)}>Cancelar</Button>
+                                <Button type="button" variant="outline" onClick={() => {
+                                    setIsOpen(false)
+                                    methods.reset(defaultValues)
+                                }}>Cancelar</Button>
                                 <Button type="submit">Salvar</Button>
                             </DialogFooter>
                         </form>

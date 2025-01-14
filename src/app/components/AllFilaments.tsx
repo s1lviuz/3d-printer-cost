@@ -169,9 +169,17 @@ export function AllFilaments() {
     const filaments = useQuery('filaments', fetchFilaments)
     const [isOpen, setIsOpen] = useState(false)
 
+    const defaultValues = {
+        name: "",
+        color: "",
+        material: "",
+        cost: 0
+    }
+
     const methods = useForm<Filament>({
         mode: 'onSubmit',
         resolver: zodResolver(filamentSchema),
+        defaultValues,
     });
     const { watch } = methods;
 
@@ -278,7 +286,12 @@ export function AllFilaments() {
             {filaments.isSuccess && (
                 <DataTable columns={columns} data={filaments.data} openModal={() => setIsOpen(true)} />
             )}
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog open={isOpen} onOpenChange={open => {
+                if (!open) {
+                    methods.reset(defaultValues)
+                }
+                setIsOpen(open)
+            }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...methods}>
                         <form onSubmit={methods.handleSubmit(onSubmit)}>
@@ -292,7 +305,10 @@ export function AllFilaments() {
                             </DialogHeader>
                             <AddFilament />
                             <DialogFooter>
-                                <Button type="reset" variant="outline" onClick={() => setIsOpen(false)}>Cancelar</Button>
+                                <Button type="button" variant="outline" onClick={() => {
+                                    setIsOpen(false)
+                                    methods.reset(defaultValues)
+                                }}>Cancelar</Button>
                                 <Button type="submit">Salvar</Button>
                             </DialogFooter>
                         </form>
