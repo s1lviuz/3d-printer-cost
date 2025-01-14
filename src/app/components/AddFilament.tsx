@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useFormContext } from 'react-hook-form'
+import { Filament } from "@/schemas/filament"
 
 export function AddFilament() {
   const methods = useFormContext<Filament>()

@@ -43,8 +43,9 @@ import {
 import { AddFilament } from "./AddFilament"
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { filamentSchema } from "../schemas/filament"
+import { filamentSchema } from "@/schemas/filament"
 import { Form } from "@/components/ui/form"
+import { Filament } from "@/schemas/filament"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

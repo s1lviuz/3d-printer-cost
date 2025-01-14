@@ -43,8 +43,9 @@ import {
 import { AddPrinter } from "./AddPrinter"
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { printerSchema } from "../schemas/printer"
+import { printerSchema } from "@/schemas/printer"
 import { Form } from "@/components/ui/form"
+import { Printer } from "@/schemas/printer"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]

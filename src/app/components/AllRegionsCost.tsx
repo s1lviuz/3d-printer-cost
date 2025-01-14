@@ -43,8 +43,9 @@ import {
 import { AddRegionCost } from "./AddRegionCost"
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { regionCostsSchema } from "../schemas/region-costs"
+import { regionCostsSchema } from "@/schemas/region-costs"
 import { Form } from "@/components/ui/form"
+import { RegionCosts } from "@/schemas/region-costs"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -53,7 +54,7 @@ interface DataTableProps<TData, TValue> {
 
 const fetchRegionCosts = async () => {
     const response = await fetch('/api/region-costs')
-    return await response.json() as RegionCost[]
+    return await response.json() as RegionCosts[]
 }
 
 function DataTable<TData, TValue>({
@@ -165,7 +166,7 @@ export function AllRegionsCost() {
     const regionCosts = useQuery('region-costs', fetchRegionCosts)
     const [isOpen, setIsOpen] = useState(false)
 
-    const methods = useForm<RegionCost>({
+    const methods = useForm<RegionCosts>({
         mode: 'onSubmit',
         resolver: zodResolver(regionCostsSchema),
     });
@@ -235,7 +236,7 @@ export function AllRegionsCost() {
                 )
             }
         }
-    ] satisfies ColumnDef<RegionCost>[], [])
+    ] satisfies ColumnDef<RegionCosts>[], [])
 
     const onSubmit = (data: any) => {
         console.log(data);

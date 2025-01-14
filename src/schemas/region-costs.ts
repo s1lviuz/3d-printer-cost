@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const regionCostsSchema = z.object({
     id: z.number().optional(),
-    region: z.string(),
+    name: z.string(),
     cost: z.number()
 });
 

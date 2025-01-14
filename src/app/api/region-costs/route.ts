@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '../auth/[...nextauth]/route'
-import { regionCostsSchema } from '@/app/schemas/region-costs'
+import { regionCostsSchema } from '@/schemas/region-costs'
 
 const prisma = new PrismaClient()
 

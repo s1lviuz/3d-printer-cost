@@ -8,14 +8,17 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { calculateEnergyConsumption, calculateEnergyCost, calculateFilamentCost, calculateTotalCost } from '@/utils/calculations'
 import { toast } from 'sonner'
+import { Printer } from '@/schemas/printer'
+import { Filament } from '@/schemas/filament'
+import { RegionCosts } from '@/schemas/region-costs'
 
 export function CostCalculator() {
     const [printers, setPrinters] = useState<Printer[]>([])
     const [filaments, setFilaments] = useState<Filament[]>([])
-    const [regionCosts, setRegionCosts] = useState<RegionCost[]>([])
+    const [regionCosts, setRegionCosts] = useState<RegionCosts[]>([])
     const [selectedPrinter, setSelectedPrinter] = useState<Printer | null>(null)
     const [selectedFilament, setSelectedFilament] = useState<Filament | null>(null)
-    const [selectedRegionCost, setSelectedRegionCost] = useState<RegionCost | null>(null)
+    const [selectedRegionCost, setSelectedRegionCost] = useState<RegionCosts | null>(null)
     const [printTime, setPrintTime] = useState<number>(0)
     const [filamentWeight, setFilamentWeight] = useState<number>(0)
     const [totalCost, setTotalCost] = useState<number | null>(null)
@@ -53,7 +56,7 @@ export function CostCalculator() {
         }
 
         const energyConsumption = calculateEnergyConsumption(selectedPrinter.wattage, printTime)
-        const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.kwhCost)
+        const energyCost = calculateEnergyCost(energyConsumption, selectedRegionCost.cost)
         const filamentCostTotal = calculateFilamentCost(selectedFilament.cost, filamentWeight)
         const total = calculateTotalCost(energyCost, filamentCostTotal)
         setTotalCost(total)
@@ -74,7 +77,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {printers.map((printer) => (
-                                    <SelectItem key={printer.id} value={printer.id.toString()}>{printer.name}</SelectItem>
+                                    <SelectItem key={printer.id} value={printer.id?.toString() ?? ''}>{printer.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -88,7 +91,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {filaments.map((filament) => (
-                                    <SelectItem key={filament.id} value={filament.id.toString()}>{filament.name} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
+                                    <SelectItem key={filament.id} value={filament.id?.toString() ?? ''}>{filament.name} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -102,7 +105,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {regionCosts.map((regionCost) => (
-                                    <SelectItem key={regionCost.id} value={regionCost.id.toString()}>{regionCost.name} - R$ {regionCost.kwhCost.toFixed(2)}/kWh</SelectItem>
+                                    <SelectItem key={regionCost.id} value={regionCost.id?.toString() ?? ''}>{regionCost.name} - R$ {regionCost.cost.toFixed(2)}/kWh</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>

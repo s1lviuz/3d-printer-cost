@@ -1,16 +1,11 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
 import { toast } from 'sonner'
 import { useFormContext } from 'react-hook-form'
-
-interface Printer {
-  name: string
-  wattage: number
-}
+import { Printer } from "@/schemas/printer"
 
 export function AddPrinter() {
   const methods = useFormContext<Printer>()
