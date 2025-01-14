@@ -13,7 +13,8 @@ export async function GET(request: Request) {
   }
 
   const regionCosts = await prisma.regionCost.findMany({
-    where: { userId: session.user.id }
+    where: { userId: session.user.id },
+    orderBy: { name: 'asc' },
   })
   return NextResponse.json(regionCosts)
 }

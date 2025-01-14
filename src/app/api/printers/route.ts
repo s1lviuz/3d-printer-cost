@@ -13,7 +13,8 @@ export async function GET(request: Request) {
   }
 
   const printers = await prisma.printer.findMany({
-    where: { userId: session.user.id }
+    where: { userId: session.user.id },
+    orderBy: { name: 'asc' },
   })
   return NextResponse.json(printers)
 }
