@@ -1,8 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { AddPrinter } from "../components/AddPrinter"
-import { AddFilament } from "../components/AddFilament"
 import { AddRegionCost } from "../components/AddRegionCost"
 import { AllFilaments } from "../components/AllFilaments"
+import { AllPrinters } from "../components/AllPrinters"
 
 export default function AdminPage() {
   return (
@@ -15,7 +14,7 @@ export default function AdminPage() {
           <TabsTrigger value="regionCosts">Custos Regionais</TabsTrigger>
         </TabsList>
         <TabsContent value="printers">
-          <AddPrinter />
+          <AllPrinters />
         </TabsContent>
         <TabsContent value="filaments">
           <AllFilaments />
