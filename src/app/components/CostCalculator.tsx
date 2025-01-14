@@ -64,7 +64,7 @@ export function CostCalculator() {
         const emptyRegionCosts = regionCosts && regionCosts.length === 0
 
         if (emptyRegionCosts) {
-            toast("Nenhuma região encontrada. Por favor, adicione uma região.")
+            toast("Nenhuma região encontrada. Por favor, adicione uma região nas opções no topo desta página.")
         }
     }, [regionCosts])
 
@@ -76,7 +76,7 @@ export function CostCalculator() {
         const emptyFilaments = filaments && filaments.length === 0
 
         if (emptyFilaments) {
-            toast("Nenhum filamento encontrado. Por favor, adicione um filamento.")
+            toast("Nenhum filamento encontrado. Por favor, adicione um filamento nas opções no topo desta página.")
         }
     }, [filaments])
 
@@ -88,7 +88,7 @@ export function CostCalculator() {
         const emptyPrinters = printers && printers.length === 0
 
         if (emptyPrinters) {
-            toast("Nenhuma impressora encontrada. Por favor, adicione uma impressora.")
+            toast("Nenhuma impressora encontrada. Por favor, adicione uma impressora nas opções no topo desta página.")
         }
     }, [printers])
 
