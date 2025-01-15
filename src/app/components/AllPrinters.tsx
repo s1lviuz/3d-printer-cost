@@ -289,7 +289,7 @@ export function AllPrinters() {
 
     return (
         <div>
-            {printers.isLoading && <p>Carregando...</p>}
+            {printers.isLoading && <div className="animate-spin h-8 w-8 border-t-2 border-b-2 border-primary rounded-full mx-auto my-8" />}
             {printers.isError && <p>Ocorreu um erro ao carregar as impressoras.</p>}
             {printers.isSuccess && (
                 <DataTable columns={columns} data={printers.data} openModal={() => setIsOpen(true)} />
