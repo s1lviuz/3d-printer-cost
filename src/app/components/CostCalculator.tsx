@@ -121,7 +121,7 @@ export function CostCalculator() {
                             </SelectTrigger>
                             <SelectContent>
                                 {filaments?.map((filament) => (
-                                    <SelectItem key={filament.id} value={filament.id?.toString() ?? ''}>{filament.name} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
+                                    <SelectItem key={filament.id} value={filament.id?.toString() ?? ''}>{filament.name} - {filament.material} - {filament.color} - R$ {filament.cost.toFixed(2)}/kg</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
