@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
   const filaments = await prisma.filament.findMany({
     where: { userId: session.user.id },
-    orderBy: { name: 'asc', material: 'asc', color: 'asc' },
+    orderBy: { name: 'asc' },
   })
   return NextResponse.json(filaments)
 }
