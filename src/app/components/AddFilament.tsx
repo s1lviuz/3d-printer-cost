@@ -5,19 +5,21 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input"
 import { useFormContext } from 'react-hook-form'
 import { Filament } from "@/schemas/filament"
+import { useTranslations } from "next-intl"
 
 export function AddFilament() {
   const methods = useFormContext<Filament>()
+  const t = useTranslations()
 
   return (
-    <Card>
+    <Card className="my-4">
       <CardContent>
         <FormField
           control={methods.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome do Filamento</FormLabel>
+              <FormLabel>{t('commom.name')}</FormLabel>
               <FormControl>
                 <Input
                   id="name"
@@ -34,7 +36,7 @@ export function AddFilament() {
           name="color"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cor</FormLabel>
+              <FormLabel>{t('commom.color')}</FormLabel>
               <FormControl>
                 <Input
                   id="color"
@@ -51,7 +53,7 @@ export function AddFilament() {
           name="material"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Material</FormLabel>
+              <FormLabel>{t('commom.material')}</FormLabel>
               <FormControl>
                 <Input
                   id="material"
@@ -68,21 +70,13 @@ export function AddFilament() {
           name="cost"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Custo (R$/Kg)</FormLabel>
+              <FormLabel>{t('commom.costPerKg')}</FormLabel>
               <FormControl>
                 <Input
                   id="cost"
                   type="number"
-                  min={1}
+                  step="0.01"
                   {...field}
-                  onChange={(e) => {
-                    const value = parseFloat(e.target.value)
-                    if (isNaN(value)) {
-                      field.onChange(0)
-                    } else {
-                      field.onChange(value)
-                    }
-                  }}
                   required
                 />
               </FormControl>
@@ -94,4 +88,3 @@ export function AddFilament() {
     </Card>
   )
 }
-

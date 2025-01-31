@@ -48,6 +48,7 @@ import { Form } from "@/components/ui/form"
 import { Printer } from "@/schemas/printer"
 import { toast } from "sonner"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useTranslations } from "next-intl"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,6 +68,8 @@ function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([])
     const [search, setSearch] = useState<string>("")
+
+    const t = useTranslations()
 
     const isMobile = useIsMobile()
 
@@ -91,7 +94,7 @@ function DataTable<TData, TValue>({
         <div>
             <div className="flex items-center justify-between py-4 gap-4">
                 <Input
-                    placeholder="Pesquisar"
+                    placeholder={t('commom.find')}
                     value={search}
                     onChange={(event) => {
                         setSearch(event.target.value)
@@ -102,7 +105,7 @@ function DataTable<TData, TValue>({
                 />
                 <Button onClick={openModal}>
                     <Plus />
-                    {!isMobile && "Adicionar Impressora"}
+                    {!isMobile && t('parameters.printers.add')}
                 </Button>
             </div>
             <div className="rounded-md border">
@@ -142,7 +145,7 @@ function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Nenhum dado encontrado.
+                                    {t('commom.noData')}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -157,7 +160,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Anterior
+                        {t('commom.previous')}
                     </Button>
                     <Button
                         variant="outline"
@@ -165,7 +168,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Próxima
+                        {t('commom.next')}
                     </Button>
                 </div>
             )}
@@ -176,6 +179,8 @@ function DataTable<TData, TValue>({
 export function AllPrinters() {
     const printers = useQuery('printers', fetchPrinters)
     const [isOpen, setIsOpen] = useState(false)
+
+    const t = useTranslations()
 
     const defaultValues = {
         name: "",
@@ -192,7 +197,7 @@ export function AllPrinters() {
     const columns = useMemo(() => [
         {
             accessorKey: "name",
-            header: "Nome",
+            header: t('commom.name'),
         },
         {
             accessorKey: "wattage",
@@ -202,7 +207,7 @@ export function AllPrinters() {
                         className="flex items-center cursor-pointer"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Potência (Watts)
+                        {t('commom.wattage')} (Watts)
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </div>
                 )
@@ -226,7 +231,9 @@ export function AllPrinters() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuLabel>Opções</DropdownMenuLabel>
+                            <DropdownMenuLabel>
+                                {t('commom.options')}
+                            </DropdownMenuLabel>
                             <DropdownMenuItem
                                 onClick={() => {
                                     methods.reset(row.original)
@@ -234,7 +241,7 @@ export function AllPrinters() {
                                 }}
                             >
                                 <Edit />
-                                Editar
+                                {t('commom.edit')}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
@@ -249,22 +256,22 @@ export function AllPrinters() {
 
                                     if (response.ok) {
                                         printers.refetch()
-                                        toast("Impressora excluída com sucesso.")
+                                        toast(t('parameters.printers.toast.delete.success'))
                                     } else {
-                                        toast("Falha ao excluir impressora.")
+                                        toast(t('parameters.printers.toast.delete.error'))
                                     }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >
                                 <Trash />
-                                Excluir
+                                {t('commom.delete')}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
             }
         }
-    ] satisfies ColumnDef<Printer>[], [])
+    ] satisfies ColumnDef<Printer>[], [t, printers, methods, setIsOpen])
 
     const onSubmit = async (data: Printer) => {
         const response = await fetch('/api/printers', {
@@ -280,17 +287,20 @@ export function AllPrinters() {
             printers.refetch()
             methods.reset()
 
-            toast(data.id ? "Impressora atualizada com sucesso." : "Impressora adicionada com sucesso.")
+            toast(data.id ?
+                t('parameters.printers.toast.edit.success') :
+                t('parameters.printers.toast.add.success')
+            )
         } else {
             const errorData = await response.json()
-            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} impressora`)
+            toast(data.id ? t('parameters.printers.toast.edit.error') : t('parameters.printers.toast.add.error'))
         }
     };
 
     return (
         <div>
             {printers.isLoading && <div className="animate-spin h-8 w-8 border-t-2 border-b-2 border-primary rounded-full mx-auto my-8" />}
-            {printers.isError && <p>Ocorreu um erro ao carregar as impressoras.</p>}
+            {printers.isError && <p>{t('parameters.printers.loadingError')}</p>}
             {printers.isSuccess && (
                 <DataTable columns={columns} data={printers.data} openModal={() => setIsOpen(true)} />
             )}
@@ -304,11 +314,15 @@ export function AllPrinters() {
                     <Form {...methods}>
                         <form onSubmit={methods.handleSubmit(onSubmit, (e) => console.log(e))}>
                             <DialogHeader>
-                                <DialogTitle>{watch("id") ? "Editar Impressora" : "Adicionar Impressora"}</DialogTitle>
+                                <DialogTitle>{watch("id") ?
+                                    t('parameters.printers.edit') :
+                                    t('parameters.printers.add')}
+                                </DialogTitle>
                                 <DialogDescription>
                                     {watch("id")
-                                        ? "Edite as informações da impressora."
-                                        : "Adicione uma nova impressora ao sistema."}
+                                        ? t('parameters.printers.dialog.edit')
+                                        : t('parameters.printers.dialog.add')
+                                    }
                                 </DialogDescription>
                             </DialogHeader>
                             <AddPrinter />
@@ -316,8 +330,12 @@ export function AllPrinters() {
                                 <Button type="button" variant="outline" onClick={() => {
                                     setIsOpen(false)
                                     methods.reset(defaultValues)
-                                }}>Cancelar</Button>
-                                <Button type="submit">Salvar</Button>
+                                }}>
+                                    {t('commom.cancel')}
+                                </Button>
+                                <Button type="submit">
+                                    {t('commom.save')}
+                                </Button>
                             </DialogFooter>
                         </form>
                     </Form>

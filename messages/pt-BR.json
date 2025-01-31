@@ -1,0 +1,188 @@
+{
+    "commom": {
+        "loading": "Carregando...",
+        "calculator": "Calculadora",
+        "sign-in": "Entrar",
+        "account": "Minha conta",
+        "accounts": "Contas",
+        "profile": "Perfil",
+        "parameters": "Parâmetros",
+        "theme": "Tema",
+        "locale": "Idioma",
+        "logout": "Sair",
+        "printer": "Impressora",
+        "printers": "Impressoras",
+        "filament": "Filamento",
+        "filaments": "Filamentos",
+        "region": "Região",
+        "regions": "Regiões de custo",
+        "statistics": "Estatísticas",
+        "find": "Pesquisar",
+        "name": "Nome",
+        "wattage": "Potência",
+        "noData": "Nenhum dado encontrado.",
+        "next": "Próxima",
+        "previous": "Anterior",
+        "options": "Opções",
+        "edit": "Editar",
+        "delete": "Excluir",
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "costPerKg": "Custo por Kg",
+        "costPerKwh": "Custo por kWh",
+        "color": "Cor",
+        "material": "Material",
+        "currency": "R$"
+    },
+    "metadata": {
+        "title": "Calculadora de Custo de Impressão 3D",
+        "description": "Calcule o custo de suas impressões 3D com precisão"
+    },
+    "app": {
+        "title": "Custo 3D"
+    },
+    "theme": {
+        "light": "Claro",
+        "dark": "Escuro",
+        "system": "Sistema"
+    },
+    "home": {
+        "title": "Calculadora de Custo de Impressão 3D",
+        "description": "Calcule com precisão o custo de suas impressões 3D, considerando energia, filamento e mais.",
+        "button": "Começar a calcular"
+    },
+    "login": {
+        "title": "Entrar",
+        "description": "Escolha um método para entrar.",
+        "button": {
+            "google": "Entrar com Google",
+            "facebook": "Entrar com Facebook",
+            "email": "Entrar com Email"
+        },
+        "email": {
+            "placeholder": "Seu email"
+        }
+    },
+    "calculator": {
+        "title": "Calculadora de Custo de Impressão 3D",
+        "form": {
+            "filament": {
+                "label": "Filamento",
+                "placeholder": "Selecione um filamento"
+            },
+            "printer": {
+                "label": "Impressora",
+                "placeholder": "Selecione uma impressora"
+            },
+            "region": {
+                "label": "Região",
+                "placeholder": "Selecione uma região"
+            },
+            "time": {
+                "label": "Tempo de Impressão (horas)"
+            },
+            "weight": {
+                "label": "Peso do Modelo (g)"
+            },
+            "button": "Calcular Custo Total",
+            "error": {
+                "missingFields": "Por favor, selecione todos os campos necessários."
+            }
+        },
+        "result": {
+            "description": "Custo Total Estimado",
+            "currency": "R$"
+        },
+        "toast": {
+            "error": {
+                "noRegions": "Nenhuma região encontrada. Por favor, adicione uma região nas opções no topo desta página.",
+                "noPrinters": "Nenhum filamento encontrado. Por favor, adicione um filamento nas opções no topo desta página.",
+                "noFilaments": "Nenhuma impressora encontrada. Por favor, adicione uma impressora nas opções no topo desta página."
+            }
+        }
+    },
+    "profile": {
+        "title": "Perfil",
+        "delete": "Deletar Conta",
+        "deleteDialog": {
+            "title": "Você tem certeza que deseja deletar sua conta?",
+            "description": "Essa ação é irreversível e deletará todos os dados associados a sua conta.",
+            "toast": {
+                "success": "Conta deletada com sucesso."
+            }
+        },
+        "error": "Erro ao carregar perfil."
+    },
+    "parameters": {
+        "title": "Painel de parametros",
+        "printers": {
+            "add": "Adicionar Impressora",
+            "edit": "Editar Impressora",
+            "toast": {
+                "delete": {
+                    "success": "Impressora excluída com sucesso.",
+                    "error": "Falha ao excluir impressora."
+                },
+                "add": {
+                    "success": "Impressora adicionada com sucesso.",
+                    "error": "Falha ao adicionar impressora."
+                },
+                "edit": {
+                    "success": "Impressora atualizada com sucesso.",
+                    "error": "Falha ao atualizar impressora."
+                }
+            },
+            "loadingError": "Ocorreu um erro ao carregar as impressoras.",
+            "dialog": {
+                "edit": "Edite as informações da impressora.",
+                "add": "Adicione uma nova impressora ao sistema."
+            }
+        },
+        "filaments": {
+            "add": "Adicionar Filamento",
+            "edit": "Editar Filamento",
+            "toast": {
+                "delete": {
+                    "success": "Filamento excluído com sucesso.",
+                    "error": "Falha ao excluir filamento."
+                },
+                "add": {
+                    "success": "Filamento adicionado com sucesso.",
+                    "error": "Falha ao adicionar filamento."
+                },
+                "edit": {
+                    "success": "Filamento atualizado com sucesso.",
+                    "error": "Falha ao atualizar filamento."
+                }
+            },
+            "loadingError": "Ocorreu um erro ao carregar os filamentos.",
+            "dialog": {
+                "edit": "Edite as informações do filamento.",
+                "add": "Adicione um novo filamento ao sistema."
+            }
+        },
+        "regions": {
+            "add": "Adicionar Custo Regional",
+            "edit": "Editar Custo Regional",
+            "toast": {
+                "delete": {
+                    "success": "Custo regional excluído com sucesso.",
+                    "error": "Falha ao excluir custo regional."
+                },
+                "add": {
+                    "success": "Custo regional adicionado com sucesso.",
+                    "error": "Falha ao adicionar custo regional."
+                },
+                "edit": {
+                    "success": "Custo regional atualizado com sucesso.",
+                    "error": "Falha ao atualizar custo regional."
+                }
+            },
+            "loadingError": "Ocorreu um erro ao carregar os custos regionais.",
+            "dialog": {
+                "edit": "Edite as informações do custo regional.",
+                "add": "Adicione um novo custo regional ao sistema."
+            }
+        }
+    }
+}

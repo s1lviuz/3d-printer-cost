@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useTranslations } from 'next-intl'
 
 export default function LoginPage() {
+  const t = useTranslations()
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -15,11 +18,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-100">
+    <div className="flex items-center justify-center h-full">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Escolha um método para entrar</CardDescription>
+          <CardTitle>
+            {t('login.title')}
+          </CardTitle>
+          <CardDescription>
+            {t('login.description')}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -29,7 +36,9 @@ export default function LoginPage() {
                 <Input disabled id="email" name="email" placeholder="Seu email" type="email" />
               </div>
             </div>
-            <Button disabled className="w-full mt-4" type="submit">Entrar com Email</Button>
+            <Button disabled className="w-full mt-4" type="submit">
+              {t('login.button.email')}
+            </Button>
           </form>
           <div className="flex flex-col gap-2 mt-4">
             <Button onClick={() => signIn('google', { callbackUrl: '/' })} variant="outline">
@@ -40,10 +49,10 @@ export default function LoginPage() {
                 <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
                 <path fill="none" d="M0 0h48v48H0z"></path>
               </svg>
-              Entrar com Google
+              {t('login.button.google')}
             </Button>
             {/* <Button onClick={() => signIn('facebook', { callbackUrl: '/' })} variant="outline">
-              Entrar com Facebook
+              {t('button.facebook')}
             </Button> */}
           </div>
         </CardContent>

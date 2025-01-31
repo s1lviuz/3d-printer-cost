@@ -1,0 +1,188 @@
+{
+    "commom": {
+        "loading": "Loading...",
+        "calculator": "Calculator",
+        "sign-in": "Sign In",
+        "account": "My Account",
+        "accounts": "Accounts",
+        "profile": "Profile",
+        "parameters": "Parameters",
+        "theme": "Theme",
+        "locale": "Language",
+        "logout": "Logout",
+        "printer": "Printer",
+        "printers": "Printers",
+        "filament": "Filament",
+        "filaments": "Filaments",
+        "region": "Region",
+        "regions": "Cost Regions",
+        "statistics": "Statistics",
+        "find": "Search",
+        "name": "Name",
+        "wattage": "Wattage",
+        "noData": "No data found.",
+        "next": "Next",
+        "previous": "Previous",
+        "options": "Options",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "costPerKg": "Cost per Kg",
+        "costPerKwh": "Cost per kWh",
+        "color": "Color",
+        "material": "Material",
+        "currency": "$"
+    },
+    "metadata": {
+        "title": "3D Printing Cost Calculator",
+        "description": "Accurately calculate the cost of your 3D prints"
+    },
+    "app": {
+        "title": "3D Cost"
+    },
+    "theme": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
+    "home": {
+        "title": "3D Printing Cost Calculator",
+        "description": "Accurately calculate the cost of your 3D prints, considering energy, filament, and more.",
+        "button": "Start Calculating"
+    },
+    "login": {
+        "title": "Sign In",
+        "description": "Choose a method to sign in.",
+        "button": {
+            "google": "Sign in with Google",
+            "facebook": "Sign in with Facebook",
+            "email": "Sign in with Email"
+        },
+        "email": {
+            "placeholder": "Your email"
+        }
+    },
+    "calculator": {
+        "title": "3D Printing Cost Calculator",
+        "form": {
+            "filament": {
+                "label": "Filament",
+                "placeholder": "Select a filament"
+            },
+            "printer": {
+                "label": "Printer",
+                "placeholder": "Select a printer"
+            },
+            "region": {
+                "label": "Region",
+                "placeholder": "Select a region"
+            },
+            "time": {
+                "label": "Print Time (hours)"
+            },
+            "weight": {
+                "label": "Model Weight (g)"
+            },
+            "button": "Calculate Total Cost",
+            "error": {
+                "missingFields": "Please select all required fields."
+            }
+        },
+        "result": {
+            "description": "Estimated Total Cost",
+            "currency": "$"
+        },
+        "toast": {
+            "error": {
+                "noRegions": "No regions found. Please add a region in the options at the top of this page.",
+                "noPrinters": "No printers found. Please add a printer in the options at the top of this page.",
+                "noFilaments": "No filaments found. Please add a filament in the options at the top of this page."
+            }
+        }
+    },
+    "profile": {
+        "title": "Profile",
+        "delete": "Delete Account",
+        "deleteDialog": {
+            "title": "Are you sure you want to delete your account?",
+            "description": "This action is irreversible and will delete all data associated with your account.",
+            "toast": {
+                "success": "Account successfully deleted."
+            }
+        },
+        "error": "Error loading profile."
+    },
+    "parameters": {
+        "title": "Parameters Panel",
+        "printers": {
+            "add": "Add Printer",
+            "edit": "Edit Printer",
+            "toast": {
+                "delete": {
+                    "success": "Printer successfully deleted.",
+                    "error": "Failed to delete printer."
+                },
+                "add": {
+                    "success": "Printer successfully added.",
+                    "error": "Failed to add printer."
+                },
+                "edit": {
+                    "success": "Printer successfully updated.",
+                    "error": "Failed to update printer."
+                }
+            },
+            "loadingError": "An error occurred while loading printers.",
+            "dialog": {
+                "edit": "Edit printer information.",
+                "add": "Add a new printer to the system."
+            }
+        },
+        "filaments": {
+            "add": "Add Filament",
+            "edit": "Edit Filament",
+            "toast": {
+                "delete": {
+                    "success": "Filament successfully deleted.",
+                    "error": "Failed to delete filament."
+                },
+                "add": {
+                    "success": "Filament successfully added.",
+                    "error": "Failed to add filament."
+                },
+                "edit": {
+                    "success": "Filament successfully updated.",
+                    "error": "Failed to update filament."
+                }
+            },
+            "loadingError": "An error occurred while loading filaments.",
+            "dialog": {
+                "edit": "Edit filament information.",
+                "add": "Add a new filament to the system."
+            }
+        },
+        "regions": {
+            "add": "Add Regional Cost",
+            "edit": "Edit Regional Cost",
+            "toast": {
+                "delete": {
+                    "success": "Regional cost successfully deleted.",
+                    "error": "Failed to delete regional cost."
+                },
+                "add": {
+                    "success": "Regional cost successfully added.",
+                    "error": "Failed to add regional cost."
+                },
+                "edit": {
+                    "success": "Regional cost successfully updated.",
+                    "error": "Failed to update regional cost."
+                }
+            },
+            "loadingError": "An error occurred while loading regional costs.",
+            "dialog": {
+                "edit": "Edit regional cost information.",
+                "add": "Add a new regional cost to the system."
+            }
+        }
+    }
+}

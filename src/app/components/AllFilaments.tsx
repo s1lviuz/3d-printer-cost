@@ -48,6 +48,7 @@ import { Form } from "@/components/ui/form"
 import { Filament } from "@/schemas/filament"
 import { toast } from "sonner"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useTranslations } from "next-intl"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,6 +68,8 @@ function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([])
     const [search, setSearch] = useState<string>("")
+
+    const t = useTranslations()
 
     const isMobile = useIsMobile()
 
@@ -91,7 +94,7 @@ function DataTable<TData, TValue>({
         <div>
             <div className="flex items-center justify-between py-4 gap-4">
                 <Input
-                    placeholder="Pesquisar"
+                    placeholder={t('commom.find')}
                     value={search}
                     onChange={(event) => {
                         setSearch(event.target.value)
@@ -102,7 +105,7 @@ function DataTable<TData, TValue>({
                 />
                 <Button onClick={openModal}>
                     <Plus />
-                    {!isMobile && "Adicionar Filamento"}
+                    {!isMobile && t('parameters.filaments.add')}
                 </Button>
             </div>
             <div className="rounded-md border">
@@ -142,7 +145,7 @@ function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Nenhum dado encontrado.
+                                    {t('commom.noData')}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -157,7 +160,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Anterior
+                        {t('commom.previous')}
                     </Button>
                     <Button
                         variant="outline"
@@ -165,7 +168,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Próxima
+                        {t('commom.next')}
                     </Button>
                 </div>
             )}
@@ -176,6 +179,8 @@ function DataTable<TData, TValue>({
 export function AllFilaments() {
     const filaments = useQuery('filaments', fetchFilaments)
     const [isOpen, setIsOpen] = useState(false)
+
+    const t = useTranslations()
 
     const defaultValues = {
         name: "",
@@ -194,15 +199,15 @@ export function AllFilaments() {
     const columns = useMemo(() => [
         {
             accessorKey: "name",
-            header: "Nome",
+            header: t('commom.name'),
         },
         {
             accessorKey: "color",
-            header: "Cor",
+            header: t('commom.color'),
         },
         {
             accessorKey: "material",
-            header: "Material",
+            header: t('commom.material'),
         },
         {
             accessorKey: "cost",
@@ -212,7 +217,7 @@ export function AllFilaments() {
                         className="flex items-center cursor-pointer"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Custo/Kg
+                        {t('commom.costPerKg')}
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </div>
                 )
@@ -241,7 +246,9 @@ export function AllFilaments() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuLabel>Opções</DropdownMenuLabel>
+                            <DropdownMenuLabel>
+                                {t('commom.options')}
+                            </DropdownMenuLabel>
                             <DropdownMenuItem
                                 onClick={() => {
                                     methods.reset(row.original)
@@ -249,7 +256,7 @@ export function AllFilaments() {
                                 }}
                             >
                                 <Edit />
-                                Editar
+                                {t('commom.edit')}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
@@ -264,26 +271,26 @@ export function AllFilaments() {
 
                                     if (response.ok) {
                                         filaments.refetch()
-                                        toast("Filamento excluído com sucesso.")
+                                        toast(t('parameters.filaments.toast.delete.success'))
                                     } else {
-                                        toast("Falha ao excluir filamento.")
+                                        toast(t('parameters.filaments.toast.delete.error'))
                                     }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >
                                 <Trash />
-                                Excluir
+                                {t('commom.delete')}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
             }
         }
-    ] satisfies ColumnDef<Filament>[], [])
+    ] satisfies ColumnDef<Filament>[], [t, filaments, methods, setIsOpen])
 
     const onSubmit = async (data: Filament) => {
         const response = await fetch('/api/filaments', {
-            method: watch("id") ? 'PUT' : 'POST',
+            method: data.id ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -292,20 +299,23 @@ export function AllFilaments() {
 
         if (response.ok) {
             setIsOpen(false)
-            methods.reset()
             filaments.refetch()
+            methods.reset()
 
-            toast(data.id ? "Filamento atualizado com sucesso." : "Filamento adicionado com sucesso.")
+            toast(data.id ?
+                t('parameters.filaments.toast.edit.success') :
+                t('parameters.filaments.toast.add.success')
+            )
         } else {
             const errorData = await response.json()
-            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} filamento.`)
+            toast(data.id ? t('parameters.filaments.toast.edit.error') : t('parameters.filaments.toast.add.error'))
         }
     };
 
     return (
         <div>
             {filaments.isLoading && <div className="animate-spin h-8 w-8 border-t-2 border-b-2 border-primary rounded-full mx-auto my-8" />}
-            {filaments.isError && <p>Ocorreu um erro ao carregar os filamentos.</p>}
+            {filaments.isError && <p>{t('parameters.filaments.loadingError')}</p>}
             {filaments.isSuccess && (
                 <DataTable columns={columns} data={filaments.data} openModal={() => setIsOpen(true)} />
             )}
@@ -317,13 +327,17 @@ export function AllFilaments() {
             }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...methods}>
-                        <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <form onSubmit={methods.handleSubmit(onSubmit, (e) => console.log(e))}>
                             <DialogHeader>
-                                <DialogTitle>{watch("id") ? "Editar Filamento" : "Adicionar Filamento"}</DialogTitle>
+                                <DialogTitle>{watch("id") ?
+                                    t('parameters.filaments.edit') :
+                                    t('parameters.filaments.add')}
+                                </DialogTitle>
                                 <DialogDescription>
                                     {watch("id")
-                                        ? "Edite as informações do filamento."
-                                        : "Adicione um novo filamento ao sistema."}
+                                        ? t('parameters.filaments.dialog.edit')
+                                        : t('parameters.filaments.dialog.add')
+                                    }
                                 </DialogDescription>
                             </DialogHeader>
                             <AddFilament />
@@ -331,8 +345,12 @@ export function AllFilaments() {
                                 <Button type="button" variant="outline" onClick={() => {
                                     setIsOpen(false)
                                     methods.reset(defaultValues)
-                                }}>Cancelar</Button>
-                                <Button type="submit">Salvar</Button>
+                                }}>
+                                    {t('commom.cancel')}
+                                </Button>
+                                <Button type="submit">
+                                    {t('commom.save')}
+                                </Button>
                             </DialogFooter>
                         </form>
                     </Form>
@@ -341,4 +359,3 @@ export function AllFilaments() {
         </div>
     )
 }
-
