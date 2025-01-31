@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from "@/components/ui/button"
-import { Calculator, LogOut, Moon, User2, Wrench } from 'lucide-react'
+import { Calculator, LogOut, Moon, Sun, SunMoon, User2, Wrench } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -21,8 +21,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import { useCookies } from 'next-client-cookies';
+import { setUserLocale } from '@/services/locale'
 
 export function Menu({ children }: { children: React.ReactNode }) {
+  const cookies = useCookies();
+  const language = cookies.get('NEXT_LOCALE') || 'Sistema'
+
+  const { theme, setTheme } = useTheme()
   const router = useRouter()
 
   return (
@@ -53,20 +60,53 @@ export function Menu({ children }: { children: React.ReactNode }) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Tema
-            <DropdownMenuShortcut>
-              <Moon size={16} />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger>
+              Tema: {theme === 'system' ? 'Sistema' : theme === 'light' ? 'Claro' : 'Escuro'}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem
+                onClick={() => setTheme('light')}
+              >
+                Claro
+                <DropdownMenuShortcut>
+                  <Sun size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setTheme('dark')}
+              >
+                Escuro
+                <DropdownMenuShortcut>
+                  <Moon size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setTheme('system')}
+              >
+                Sistema
+                <DropdownMenuShortcut>
+                  <SunMoon size={16} />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              Idioma: {language === 'en' ? 'en-US' : 'pt-BR'}
+            </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem>Email</DropdownMenuItem>
-                <DropdownMenuItem>Message</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>More...</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setUserLocale('en')}
+                >
+                  en-US
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => setUserLocale('pt-BR')}
+                >
+                  pt-BR
+                </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>

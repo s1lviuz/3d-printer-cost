@@ -18,7 +18,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
-
 const fetchMe = async () => {
     const response = await fetch('/api/users/me')
     if (!response.ok) throw new Error('Falha ao buscar usuário')

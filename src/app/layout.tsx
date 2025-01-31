@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import { Metadata } from 'next'
+import { CookiesProvider } from 'next-client-cookies/server'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -34,7 +35,9 @@ export default async function RootLayout({
         <Providers>
           <NextIntlClientProvider
             messages={messages}>
-            <Header />
+            <CookiesProvider>
+              <Header />
+            </CookiesProvider>
             <main className='h-[calc(100%-72px)]'>{children}</main>
             <Toaster />
           </NextIntlClientProvider>
