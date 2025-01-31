@@ -48,6 +48,7 @@ import { Form } from "@/components/ui/form"
 import { RegionCosts } from "@/schemas/region-costs"
 import { toast } from "sonner"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { useTranslations } from "next-intl"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -67,6 +68,8 @@ function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([])
     const [search, setSearch] = useState<string>("")
+
+    const t = useTranslations()
 
     const isMobile = useIsMobile()
 
@@ -91,7 +94,7 @@ function DataTable<TData, TValue>({
         <div>
             <div className="flex items-center justify-between py-4 gap-4">
                 <Input
-                    placeholder="Pesquisar"
+                    placeholder={t('commom.find')}
                     value={search}
                     onChange={(event) => {
                         setSearch(event.target.value)
@@ -102,7 +105,7 @@ function DataTable<TData, TValue>({
                 />
                 <Button onClick={openModal}>
                     <Plus />
-                    {!isMobile && "Adicionar Região"}
+                    {!isMobile && t('parameters.regions.add')}
                 </Button>
             </div>
             <div className="rounded-md border">
@@ -142,7 +145,7 @@ function DataTable<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    Nenhum dado encontrado.
+                                    {t('commom.noData')}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -157,7 +160,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Anterior
+                        {t('commom.previous')}
                     </Button>
                     <Button
                         variant="outline"
@@ -165,7 +168,7 @@ function DataTable<TData, TValue>({
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Próxima
+                        {t('commom.next')}
                     </Button>
                 </div>
             )}
@@ -177,6 +180,8 @@ export function AllRegionsCost() {
     const regionCosts = useQuery('region-costs', fetchRegionCosts)
     const [isOpen, setIsOpen] = useState(false)
 
+    const t = useTranslations()
+
     const defaultValues = {
         name: "",
         kwhCost: 0,
@@ -185,13 +190,14 @@ export function AllRegionsCost() {
     const methods = useForm<RegionCosts>({
         mode: 'onSubmit',
         resolver: zodResolver(regionCostsSchema),
+        defaultValues,
     });
     const { watch } = methods;
 
     const columns = useMemo(() => [
         {
             accessorKey: "name",
-            header: "Nome",
+            header: t('commom.name'),
         },
         {
             accessorKey: "kwhCost",
@@ -201,7 +207,7 @@ export function AllRegionsCost() {
                         className="flex items-center cursor-pointer"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Custo do kWh (R$)
+                        {t('commom.costPerKwh')}
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </div>
                 )
@@ -230,7 +236,9 @@ export function AllRegionsCost() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuLabel>Opções</DropdownMenuLabel>
+                            <DropdownMenuLabel>
+                                {t('commom.options')}
+                            </DropdownMenuLabel>
                             <DropdownMenuItem
                                 onClick={() => {
                                     methods.reset(row.original)
@@ -238,7 +246,7 @@ export function AllRegionsCost() {
                                 }}
                             >
                                 <Edit />
-                                Editar
+                                {t('commom.edit')}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
@@ -253,22 +261,22 @@ export function AllRegionsCost() {
 
                                     if (response.ok) {
                                         regionCosts.refetch()
-                                        toast("Região excluída com sucesso")
+                                        toast(t('parameters.regions.toast.delete.success'))
                                     } else {
-                                        toast("Falha ao excluir região")
+                                        toast(t('parameters.regions.toast.delete.error'))
                                     }
                                 }}
                                 className="focus:bg-destructive focus:text-destructive-foreground"
                             >
                                 <Trash />
-                                Excluir
+                                {t('commom.delete')}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
             }
         }
-    ] satisfies ColumnDef<RegionCosts>[], [])
+    ] satisfies ColumnDef<RegionCosts>[], [t, regionCosts, methods, setIsOpen])
 
     const onSubmit = async (data: RegionCosts) => {
         const response = await fetch('/api/region-costs', {
@@ -284,17 +292,20 @@ export function AllRegionsCost() {
             regionCosts.refetch()
             methods.reset()
 
-            toast(data.id ? "Região atualizada com sucesso" : "Região adicionada com sucesso")
+            toast(data.id ?
+                t('parameters.regions.toast.edit.success') :
+                t('parameters.regions.toast.add.success')
+            )
         } else {
             const errorData = await response.json()
-            toast(`Falha ao ${data.id ? "atualizar" : "adicionar"} região`)
+            toast(data.id ? t('parameters.regions.toast.edit.error') : t('parameters.regions.toast.add.error'))
         }
     };
 
     return (
         <div>
             {regionCosts.isLoading && <div className="animate-spin h-8 w-8 border-t-2 border-b-2 border-primary rounded-full mx-auto my-8" />}
-            {regionCosts.isError && <p>Ocorreu um erro ao carregar os custos regionais.</p>}
+            {regionCosts.isError && <p>{t('parameters.regions.loadingError')}</p>}
             {regionCosts.isSuccess && (
                 <DataTable columns={columns} data={regionCosts.data} openModal={() => setIsOpen(true)} />
             )}
@@ -306,13 +317,17 @@ export function AllRegionsCost() {
             }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...methods}>
-                        <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <form onSubmit={methods.handleSubmit(onSubmit, (e) => console.log(e))}>
                             <DialogHeader>
-                                <DialogTitle>{watch("id") ? "Editar Custo Regional" : "Adicionar Custo Regional"}</DialogTitle>
+                                <DialogTitle>{watch("id") ?
+                                    t('parameters.regions.edit') :
+                                    t('parameters.regions.add')}
+                                </DialogTitle>
                                 <DialogDescription>
                                     {watch("id")
-                                        ? "Edite as informações do custo regional."
-                                        : "Adicione um novo custo regional ao sistema."}
+                                        ? t('parameters.regions.dialog.edit')
+                                        : t('parameters.regions.dialog.add')
+                                    }
                                 </DialogDescription>
                             </DialogHeader>
                             <AddRegionCost />
@@ -320,8 +335,12 @@ export function AllRegionsCost() {
                                 <Button type="button" variant="outline" onClick={() => {
                                     setIsOpen(false)
                                     methods.reset(defaultValues)
-                                }}>Cancelar</Button>
-                                <Button type="submit">Salvar</Button>
+                                }}>
+                                    {t('commom.cancel')}
+                                </Button>
+                                <Button type="submit">
+                                    {t('commom.save')}
+                                </Button>
                             </DialogFooter>
                         </form>
                     </Form>

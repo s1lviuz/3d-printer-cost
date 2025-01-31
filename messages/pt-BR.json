@@ -29,6 +29,7 @@
         "save": "Salvar",
         "cancel": "Cancelar",
         "costPerKg": "Custo por Kg",
+        "costPerKwh": "Custo por kWh",
         "color": "Cor",
         "material": "Material"
     },
@@ -157,6 +158,29 @@
             "dialog": {
                 "edit": "Edite as informações do filamento.",
                 "add": "Adicione um novo filamento ao sistema."
+            }
+        },
+        "regions": {
+            "add": "Adicionar Custo Regional",
+            "edit": "Editar Custo Regional",
+            "toast": {
+                "delete": {
+                    "success": "Custo regional excluído com sucesso.",
+                    "error": "Falha ao excluir custo regional."
+                },
+                "add": {
+                    "success": "Custo regional adicionado com sucesso.",
+                    "error": "Falha ao adicionar custo regional."
+                },
+                "edit": {
+                    "success": "Custo regional atualizado com sucesso.",
+                    "error": "Falha ao atualizar custo regional."
+                }
+            },
+            "loadingError": "Ocorreu um erro ao carregar os custos regionais.",
+            "dialog": {
+                "edit": "Edite as informações do custo regional.",
+                "add": "Adicione um novo custo regional ao sistema."
             }
         }
     }

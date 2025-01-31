@@ -5,19 +5,21 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input"
 import { RegionCosts } from "@/schemas/region-costs"
 import { useFormContext } from 'react-hook-form'
+import { useTranslations } from "next-intl"
 
 export function AddRegionCost() {
   const methods = useFormContext<RegionCosts>()
+  const t = useTranslations()
 
   return (
-    <Card>
+    <Card className="my-4">
       <CardContent>
         <FormField
           control={methods.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da Região</FormLabel>
+              <FormLabel>{t('commom.name')}</FormLabel>
               <FormControl>
                 <Input
                   id="name"
@@ -34,13 +36,13 @@ export function AddRegionCost() {
           name="kwhCost"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Custo do kWh (R$)</FormLabel>
+              <FormLabel>{t('commom.costPerKwh')} (R$)</FormLabel>
               <FormControl>
                 <Input
                   id="kwhCost"
                   type="number"
-                  step={0.01}
-                  min={0.01}
+                  step="0.01"
+                  min="0.01"
                   {...field}
                   onChange={(e) => {
                     const value = parseFloat(e.target.value)
