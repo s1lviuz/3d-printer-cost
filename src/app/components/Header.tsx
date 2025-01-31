@@ -36,7 +36,7 @@ export function Header() {
                   {isMobile ? '' : 'Calculadora'}
                 </Button>
               </Link>
-              <Button variant="destructive" onClick={() => signOut({ callbackUrl: '/' })}>
+              <Button size="sm" variant="destructive" onClick={() => signOut({ callbackUrl: '/' })}>
                 <LogOut size={16} />
                 {isMobile ? '' : 'Sair'}
               </Button>
