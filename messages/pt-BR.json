@@ -31,7 +31,8 @@
         "costPerKg": "Custo por Kg",
         "costPerKwh": "Custo por kWh",
         "color": "Cor",
-        "material": "Material"
+        "material": "Material",
+        "currency": "R$"
     },
     "metadata": {
         "title": "Calculadora de Custo de Impressão 3D",

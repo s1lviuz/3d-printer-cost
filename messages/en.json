@@ -31,7 +31,8 @@
         "costPerKg": "Cost per Kg",
         "costPerKwh": "Cost per kWh",
         "color": "Color",
-        "material": "Material"
+        "material": "Material",
+        "currency": "$"
     },
     "metadata": {
         "title": "3D Printing Cost Calculator",

@@ -36,7 +36,7 @@ export function AddRegionCost() {
           name="kwhCost"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('commom.costPerKwh')} (R$)</FormLabel>
+              <FormLabel>{t('commom.costPerKwh')} ({t('commom.currency')})</FormLabel>
               <FormControl>
                 <Input
                   id="kwhCost"
