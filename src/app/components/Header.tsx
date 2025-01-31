@@ -70,7 +70,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              Tema: {theme === 'system' ? t('theme.system')
+              {t('commom.theme')}: {theme === 'system' ? t('theme.system')
                 : theme === 'light' ? t('theme.light')
                   : t('theme.dark')}
             </DropdownMenuSubTrigger>
