@@ -27,7 +27,10 @@
         "edit": "Editar",
         "delete": "Excluir",
         "save": "Salvar",
-        "cancel": "Cancelar"
+        "cancel": "Cancelar",
+        "costPerKg": "Custo por Kg",
+        "color": "Cor",
+        "material": "Material"
     },
     "metadata": {
         "title": "Calculadora de Custo de Impressão 3D",
@@ -131,6 +134,29 @@
             "dialog": {
                 "edit": "Edite as informações da impressora.",
                 "add": "Adicione uma nova impressora ao sistema."
+            }
+        },
+        "filaments": {
+            "add": "Adicionar Filamento",
+            "edit": "Editar Filamento",
+            "toast": {
+                "delete": {
+                    "success": "Filamento excluído com sucesso.",
+                    "error": "Falha ao excluir filamento."
+                },
+                "add": {
+                    "success": "Filamento adicionado com sucesso.",
+                    "error": "Falha ao adicionar filamento."
+                },
+                "edit": {
+                    "success": "Filamento atualizado com sucesso.",
+                    "error": "Falha ao atualizar filamento."
+                }
+            },
+            "loadingError": "Ocorreu um erro ao carregar os filamentos.",
+            "dialog": {
+                "edit": "Edite as informações do filamento.",
+                "add": "Adicione um novo filamento ao sistema."
             }
         }
     }
