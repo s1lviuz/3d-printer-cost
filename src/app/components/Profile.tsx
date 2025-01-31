@@ -17,6 +17,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { useTranslations } from "next-intl"
 
 const fetchMe = async () => {
     const response = await fetch('/api/users/me')
@@ -37,13 +38,15 @@ const fetchDelete = async () => {
 export function Profile() {
     const me = useQuery('me', fetchMe)
 
+    const t = useTranslations()
+
     const handleDelete = async () => {
         try {
             const response = await fetchDelete()
             if (response.success) {
                 signOut()
 
-                toast.success('Conta deletada com sucesso')
+                toast.success(t('profile.deleteDialog.toast.success'))
             }
         } catch (error) {
             console.error(error)
@@ -53,11 +56,17 @@ export function Profile() {
     return (
         <Card className="w-full max-w-md mx-auto">
             <CardHeader>
-                <CardTitle>Perfil</CardTitle>
+                <CardTitle>
+                    {t('commom.profile')}
+                </CardTitle>
             </CardHeader>
             <CardContent>
-                {me.isLoading && <p>Carregando...</p>}
-                {me.isError && <p>Erro ao carregar perfil</p>}
+                {me.isLoading && <p>
+                    {t('commom.loading')}
+                </p>}
+                {me.isError && <p>
+                    {t('profile.error')}
+                </p>}
                 {me.isSuccess && (
                     <div className="space-y-4">
                         <div className="flex items-center space-x-4">
@@ -71,7 +80,9 @@ export function Profile() {
                             </div>
                         </div>
                         <div className="">
-                            <h3 className="text-lg font-bold">Contas</h3>
+                            <h3 className="text-lg font-bold">
+                                {t('commom.accounts')}
+                            </h3>
                             <ul className="list-disc list-inside">
                                 {me.data.accounts?.map((account) => (
                                     <li key={account.provider}>{account.provider}</li>
@@ -81,29 +92,29 @@ export function Profile() {
                         <div className="">
                             <h3 className="text-lg font-bold">Estatísticas</h3>
                             <ul className="list-disc list-inside">
-                                <li>Impressoras: {me.data._count.printers}</li>
-                                <li>Filamentos: {me.data._count.filaments}</li>
-                                <li>Regiões de custo: {me.data._count.regionCosts}</li>
+                                <li>{t('commom.printers')}: {me.data._count.printers}</li>
+                                <li>{t('commom.filaments')}: {me.data._count.filaments}</li>
+                                <li>{t('commom.regions')}: {me.data._count.regionCosts}</li>
                             </ul>
                         </div>
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button className="w-full" variant={'destructive'}>
                                     <Trash2 size={16} />
-                                    Deletar conta
+                                    {t('profile.delete')}
                                 </Button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>
-                                        Você tem certeza que deseja deletar sua conta?
+                                        {t('profile.deleteDialog.title')}
                                     </DialogTitle>
                                     <DialogDescription className="text-destructive">
-                                        Essa ação é irreversível e deletará todos os dados associados a sua conta.
+                                        {t('profile.deleteDialog.description')}
                                     </DialogDescription>
                                 </DialogHeader>
                                 <Button onClick={handleDelete} variant={'destructive'}>
-                                    Deletar conta
+                                    {t('profile.delete')}
                                 </Button>
                             </DialogContent>
                         </Dialog>

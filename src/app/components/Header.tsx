@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useCookies } from 'next-client-cookies';
 import { setUserLocale } from '@/services/locale'
+import { useTranslations } from 'next-intl';
 
 export function Menu({ children }: { children: React.ReactNode }) {
   const cookies = useCookies();
@@ -32,19 +33,23 @@ export function Menu({ children }: { children: React.ReactNode }) {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
 
+  const t = useTranslations()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='cursor-pointer'>
         {children}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {t('commom.account')}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => router.push('/profile')}
           >
-            Perfil
+            {t('commom.profile')}
             <DropdownMenuShortcut>
               <User2 size={16} />
             </DropdownMenuShortcut>
@@ -52,7 +57,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
           <DropdownMenuItem
             onClick={() => router.push('/parameters')}
           >
-            Parametros
+            {t('commom.parameters')}
             <DropdownMenuShortcut>
               <Wrench size={16} />
             </DropdownMenuShortcut>
@@ -62,13 +67,15 @@ export function Menu({ children }: { children: React.ReactNode }) {
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              Tema: {theme === 'system' ? 'Sistema' : theme === 'light' ? 'Claro' : 'Escuro'}
+              Tema: {theme === 'system' ? t('theme.system')
+                : theme === 'light' ? t('theme.light')
+                  : t('theme.dark')}
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem
                 onClick={() => setTheme('light')}
               >
-                Claro
+                {t('theme.light')}
                 <DropdownMenuShortcut>
                   <Sun size={16} />
                 </DropdownMenuShortcut>
@@ -76,7 +83,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
               <DropdownMenuItem
                 onClick={() => setTheme('dark')}
               >
-                Escuro
+                {t('theme.dark')}
                 <DropdownMenuShortcut>
                   <Moon size={16} />
                 </DropdownMenuShortcut>
@@ -84,7 +91,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
               <DropdownMenuItem
                 onClick={() => setTheme('system')}
               >
-                Sistema
+                {t('theme.system')}
                 <DropdownMenuShortcut>
                   <SunMoon size={16} />
                 </DropdownMenuShortcut>
@@ -93,7 +100,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
           </DropdownMenuSub>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              Idioma: {language === 'en' ? 'en-US' : 'pt-BR'}
+              {t('commom.locale')}: {language === 'en' ? 'en-US' : 'pt-BR'}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
@@ -115,7 +122,7 @@ export function Menu({ children }: { children: React.ReactNode }) {
         <DropdownMenuItem
           onClick={() => signOut()}
         >
-          Sair
+          {t('commom.logout')}
           <DropdownMenuShortcut>
             <LogOut size={16} />
           </DropdownMenuShortcut>
@@ -128,22 +135,25 @@ export function Menu({ children }: { children: React.ReactNode }) {
 export function Header() {
   const { data: session, status } = useSession()
   const isMobile = useIsMobile()
+  const t = useTranslations()
 
   return (
     <header className="bg-muted shadow-sm">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
-          3D Print Cost
+          {t('app.title')}
         </Link>
         <nav>
           {status === 'loading' ? (
-            <span>Carregando...</span>
+            <span>
+              {t('commom.loading')}
+            </span>
           ) : session ? (
             <div className="flex items-center space-x-4">
               <Link href="/calculator">
                 <Button size="sm">
                   <Calculator size={16} />
-                  {isMobile ? '' : 'Calculadora'}
+                  {isMobile ? '' : t('commom.calculator')}
                 </Button>
               </Link>
               <Menu>
@@ -155,7 +165,9 @@ export function Header() {
             </div>
           ) : (
             <Link href="/login">
-              <Button>Entrar</Button>
+              <Button>
+                {t('commom.sign-in')}
+              </Button>
             </Link>
           )}
         </nav>

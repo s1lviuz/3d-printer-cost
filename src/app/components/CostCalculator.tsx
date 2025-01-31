@@ -12,6 +12,7 @@ import { Printer } from '@/schemas/printer'
 import { Filament } from '@/schemas/filament'
 import { RegionCosts } from '@/schemas/region-costs'
 import { useQuery } from 'react-query'
+import { useTranslations } from 'next-intl'
 
 const fetchPrinters = async () => {
     const response = await fetch('/api/printers')
@@ -43,9 +44,11 @@ export function CostCalculator() {
     const [filamentWeight, setFilamentWeight] = useState<number>()
     const [totalCost, setTotalCost] = useState<number | null>(null)
 
+    const t = useTranslations()
+
     const handleCalculate = () => {
         if (!selectedPrinter || !selectedRegionCost || !selectedFilament) {
-            toast("Por favor, selecione todos os campos necessários.")
+            toast(t('calculator.form.error.missingFields'))
             return
         }
 
@@ -64,7 +67,7 @@ export function CostCalculator() {
         const emptyRegionCosts = regionCosts && regionCosts.length === 0
 
         if (emptyRegionCosts) {
-            toast("Nenhuma região encontrada. Por favor, adicione uma região nas opções no topo desta página.")
+            toast(t('calculator.toast.error.noRegions'))
         }
     }, [regionCosts])
 
@@ -76,7 +79,7 @@ export function CostCalculator() {
         const emptyFilaments = filaments && filaments.length === 0
 
         if (emptyFilaments) {
-            toast("Nenhum filamento encontrado. Por favor, adicione um filamento nas opções no topo desta página.")
+            toast(t('calculator.toast.error.noFilaments'))
         }
     }, [filaments])
 
@@ -88,22 +91,26 @@ export function CostCalculator() {
         const emptyPrinters = printers && printers.length === 0
 
         if (emptyPrinters) {
-            toast("Nenhuma impressora encontrada. Por favor, adicione uma impressora nas opções no topo desta página.")
+            toast(t('calculator.toast.error.noPrinters'))
         }
     }, [printers])
 
     return (
         <Card className="w-full max-w-2xl mx-auto">
             <CardHeader>
-                <CardTitle>Calculadora de Custo de Impressão 3D</CardTitle>
+                <CardTitle>
+                    {t('calculator.title')}
+                </CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={(e) => { e.preventDefault(); handleCalculate(); }} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="printer">Impressora</Label>
+                        <Label htmlFor="printer">
+                            {t('commom.printer')}
+                        </Label>
                         <Select onValueChange={(value) => setSelectedPrinter(printers?.find(p => p.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="printer">
-                                <SelectValue placeholder="Selecione uma impressora" />
+                                <SelectValue placeholder={t('calculator.form.printer.placeholder')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {printers?.map((printer) => (
@@ -114,10 +121,12 @@ export function CostCalculator() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="filament">Filamento</Label>
+                        <Label htmlFor="filament">
+                            {t('commom.filament')}
+                        </Label>
                         <Select onValueChange={(value) => setSelectedFilament(filaments?.find(f => f.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="filament">
-                                <SelectValue placeholder="Selecione um filamento" />
+                                <SelectValue placeholder={t('calculator.form.filament.placeholder')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {filaments?.map((filament) => (
@@ -128,10 +137,12 @@ export function CostCalculator() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="regionCost">Região</Label>
+                        <Label htmlFor="regionCost">
+                            {t('commom.region')}
+                        </Label>
                         <Select onValueChange={(value) => setSelectedRegionCost(regionCosts?.find(r => r.id === parseInt(value)) || null)} required>
                             <SelectTrigger id="regionCost">
-                                <SelectValue placeholder="Selecione uma região" />
+                                <SelectValue placeholder={t('calculator.form.region.placeholder')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {regionCosts?.map((regionCost) => (
@@ -142,7 +153,7 @@ export function CostCalculator() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="printTime">Tempo de Impressão (horas)</Label>
+                        <Label htmlFor="printTime">{t('calculator.form.time.label')}</Label>
                         <Input
                             id="printTime"
                             type="number"
@@ -155,7 +166,7 @@ export function CostCalculator() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="filamentWeight">Peso do Filamento (gramas)</Label>
+                        <Label htmlFor="filamentWeight">{t('calculator.form.weight.label')}</Label>
                         <Input
                             id="filamentWeight"
                             type="number"
@@ -167,12 +178,12 @@ export function CostCalculator() {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full">Calcular Custo Total</Button>
+                    <Button type="submit" className="w-full">{t('calculator.form.button')}</Button>
                 </form>
 
                 {totalCost !== null && (
                     <div className="mt-4 p-4 bg-secondary rounded-md">
-                        <p className="text-lg font-semibold text-center">Custo Total Estimado: R$ {totalCost.toFixed(2)}</p>
+                        <p className="text-lg font-semibold text-center">{t('calculator.result.description')}: {t('calculator.result.currency')} {totalCost.toFixed(2)}</p>
                     </div>
                 )}
             </CardContent>

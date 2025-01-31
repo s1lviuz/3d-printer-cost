@@ -3,43 +3,24 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from 'sonner'
 import { useFormContext } from 'react-hook-form'
 import { Printer } from "@/schemas/printer"
+import { useTranslations } from "next-intl"
 
 export function AddPrinter() {
   const methods = useFormContext<Printer>()
 
-  const onSubmit = async (data: Printer) => {
-    try {
-      const response = await fetch('/api/printers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      if (response.ok) {
-        toast("A nova impressora foi adicionada com sucesso.")
-        methods.reset()
-      } else {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Falha ao adicionar impressora')
-      }
-    } catch (error) {
-      toast("Houve um problema ao adicionar a impressora.")
-    }
-  }
+  const t = useTranslations()
 
   return (
-    <Card>
+    <Card className="my-4">
       <CardContent>
         <FormField
           control={methods.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da Impressora</FormLabel>
+              <FormLabel>{t('commom.name')}</FormLabel>
               <FormControl>
                 <Input
                   id="name"
@@ -56,7 +37,7 @@ export function AddPrinter() {
           name="wattage"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Potência (Watts)</FormLabel>
+              <FormLabel>{t('commom.wattage')} (Watts)</FormLabel>
               <FormControl>
                 <Input
                   id="wattage"
