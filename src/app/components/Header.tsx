@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from "@/components/ui/button"
-import { Calculator, LogOut, Moon, Sun, SunMoon, User2, Wrench } from 'lucide-react'
+import { ArrowBigDown, Calculator, LogOut, Moon, Sun, SunMoon, User2, Wrench } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -38,7 +38,10 @@ export function Menu({ children }: { children: React.ReactNode }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className='cursor-pointer'>
-        {children}
+        <div className="flex items-center space-x-2 border border-muted-foreground rounded-full pr-2 hover:bg-muted-foreground hover:text-muted-background">
+          {children}
+          <ArrowBigDown size={18} />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>
@@ -157,7 +160,7 @@ export function Header() {
                 </Button>
               </Link>
               <Menu>
-                <Avatar>
+                <Avatar className='w-8 h-8'>
                   <AvatarImage src={session.user?.image ?? ''} alt="Avatar" />
                   <AvatarFallback>{session.user?.name?.charAt(0)}</AvatarFallback>
                 </Avatar>
