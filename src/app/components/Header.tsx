@@ -34,7 +34,9 @@ export function Menu({ children }: { children: React.ReactNode }) {
         <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push('/profile')}
+          >
             Perfil
             <DropdownMenuShortcut>
               <User2 size={16} />

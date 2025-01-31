@@ -1,7 +1,27 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+
+export const UserPayload = {
+    select: {
+        email: true,
+        name: true,
+        image: true,
+        accounts: {
+            select: {
+                provider: true
+            }
+        },
+        _count: {
+            select: {
+                printers: true,
+                filaments: true,
+                regionCosts: true
+            }
+        }
+    }
+} satisfies Omit<Prisma.UserFindUniqueArgs, 'where'>
 
 const prisma = new PrismaClient()
 
@@ -12,7 +32,8 @@ export async function GET(request: Request) {
     }
 
     const user = await prisma.user.findUnique({
-        where: { id: session.user.id }
+        select: UserPayload.select,
+        where: { id: session.user.id },
     })
     return NextResponse.json(user)
 }
